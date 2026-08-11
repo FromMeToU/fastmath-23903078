@@ -1,12 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <title>เกมคิดเลขเร็ว</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+
 
 <!-- v38: practice shuffle = new question; practice timer resets to 0.0 and counts up -->
 <style>
@@ -281,303 +281,485 @@ kbd{border:1px solid #cbd5e1;background:#f8fafc;border-bottom-width:2px;border-r
 }
 
 /* v14: power base stays on the same line as surrounding numbers/operators; exponent overflows upward without changing row height. */
+
+/* v62 compact UI tweaks */
+#home .card.mode p,
+#home .sectiontitle,
+#home .rules{display:none !important;}
+#home .card.mode{min-height:auto;}
+#finder .finderIntro,
+#finder .finderHintLine,
+#setup .field > .mini,
+#setup #levelRuleBox,
+#specialSetup #specialSetupDesc,
+#specialSetup #specialRuleBox{display:none !important;}
+#finder .finderSearchWide{width:100%;margin:12px 0 12px 0;}
+#finder .actions.compact-actions{margin-top:10px;}
+#finder .actions.compact-actions .btn{flex:1;}
+#finder .finderInputs{margin-bottom:10px;}
+#finder .formgrid{margin-bottom:10px;}
+#finder .finderBox{min-height:72px;}
+#finder .card > h2{margin-bottom:10px;}
+
 </style>
 
-<style id="v43ResultRowAndParensFix">
-/* แถวบน: เลขโจทย์ → ผลลัพธ์เป้าหมาย (ซ้ำจากด้านบนเพื่อไม่ต้องเลื่อน) → ปุ่มลบ */
-#game .refDigits{
-  grid-template-columns:repeat(var(--ref-cols,6),minmax(0,1fr))!important;
-  align-items:stretch!important;
-}
-#game .quick-result-display{
-  min-width:0;height:62px;min-height:62px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border:1px solid #2d62bb;border-radius:11px;background:#2d62bb;color:#fff;
-  font-weight:950;line-height:1.02;box-shadow:none;
-  user-select:none;-webkit-user-select:none;overflow:hidden;
-}
-#game .quick-result-display.empty{background:#2d62bb;color:#fff;border-color:#2d62bb}
-#game .quick-result-value{font-size:2rem;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;padding:0 4px;font-weight:950}
-#game .quick-result-note{font-size:.56rem;margin-top:2px;white-space:nowrap;font-weight:900;opacity:.92}
-#game .refDigits .topBackspace{background:#fff7ed!important;color:#9a3412!important}
-@media(max-width:620px){
-  #game .quick-result-display{height:58px;min-height:58px;border-radius:9px}
-  #game .quick-result-value{font-size:1.78rem}
-  #game .quick-result-note{font-size:.52rem}
-  #game .refDigits{gap:6px!important}
-}
+
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&amp;family=Changa:wght@700;800&amp;display=swap" rel="stylesheet"/><style id="v54ExactUploadedUI">
+/* ===== v54: exact supplied FastMath visual system ===== */
+body{font-family:"Prompt",sans-serif!important;background:#f3f4f6;color:#1e293b}
+body:has(#game.active)>.app>.topbar,.app:has(#game.active)>.topbar{display:none!important}
+#game{max-width:none!important;margin:0!important;padding:0!important}
+#game .fm-app-container{width:100%;max-width:400px;margin:16px auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 20px 50px rgba(15,23,42,.16);overflow:hidden;color:#1e293b}
+#game .fm-pad{padding:16px}
+#game .fm-top-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
+#game .fm-top-left{display:flex;gap:8px}.fm-small-btn,.fm-timer{height:36px;padding:0 11px;border:1px solid #e5e7eb;border-radius:9px;background:#fff;color:#334155;font:500 13px "Prompt",sans-serif;display:flex;align-items:center;gap:6px;box-shadow:0 1px 2px rgba(15,23,42,.03)}
+#game .fm-timer{color:#0f766e;background:#f0fdfa;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#game .fm-prompt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end;margin-bottom:8px}
+#game .challengeNumbers,#game .challengeTarget{background:transparent!important;border:0!important;padding:0!important;border-radius:0!important}
+#game .challengeLabel{font:500 13px/1.25 "Prompt",sans-serif!important;color:#374151!important;margin:0 0 5px!important;text-align:left!important}
+#game .problemDigits{display:flex!important;gap:6px!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:nowrap!important;min-height:0!important}
+#game .digit{width:48px!important;height:61px!important;border:1px solid #eef0f3!important;border-radius:8px!important;background:#f5f6f8!important;color:#1c2431!important;font-family:"Changa",sans-serif!important;font-size:2.55rem!important;font-weight:800!important;line-height:1!important;display:grid!important;place-items:center!important;box-shadow:none!important;padding:0!important;margin:0!important}
+#game .digit.used,#game .digit:disabled{opacity:.3!important;pointer-events:none!important}
+#game .challengeTarget{display:flex!important;flex-direction:column!important;align-items:flex-end!important}
+#game .challengeTarget .target{width:88px!important;height:61px!important;border:0!important;border-radius:10px!important;background:#0f766e!important;color:#fff!important;font-family:"Changa",sans-serif!important;font-size:2.35rem!important;font-weight:800!important;line-height:1!important;display:grid!important;place-items:center!important;padding:0 4px!important;box-shadow:0 1px 2px rgba(15,23,42,.08)!important;overflow:hidden!important;white-space:nowrap!important}
+#game .fm-level-row{display:flex;align-items:center;justify-content:space-between;margin:8px 2px 12px;color:#64748b;font-size:13px;font-weight:500}
+#game .fm-level{display:flex;align-items:center;gap:5px}.fm-cube{font-size:17px}#game #roundLabel{border-bottom:2px dotted #94a3b8;padding-bottom:1px;color:#475569}#game .fm-qmeta{font-size:12px;color:#64748b}
+#game .fm-rule-support{display:none!important}
+#game .fm-random-row{display:flex;gap:10px;margin-bottom:16px}#game .fm-reset{width:104px;flex:0 0 104px;border:1px solid #e5e7eb;background:#fff;color:#334155}#game .fm-random{flex:1;border:0;background:#0f766e;color:#fff;box-shadow:0 1px 2px rgba(15,23,42,.08)}
+#game .fm-reset,#game .fm-random{height:48px;border-radius:10px;font:500 15px/1 "Prompt",sans-serif}
+#game .fm-input-panel{border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:14px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.03)}
+#game .fm-display-shell{border:1px solid #e5e7eb;border-radius:8px;min-height:88px;margin-bottom:12px;background:#fff;overflow-x:auto;overflow-y:hidden}
+#game #expr{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;left:-9999px!important}
+#game .fm-math-display{min-height:88px;padding:15px 10px;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:34px;line-height:1;cursor:text;overflow-x:auto;overflow-y:hidden}
+#game .fm-input-toolbar{display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px}#game .fm-mini-tools{display:none!important}.fm-mini-tools span{width:34px;text-align:center}.fm-mini-tools i{width:1px;height:16px;background:#e5e7eb}#game .fm-condition-btn,#game .fm-condition-text{display:none!important}
+#game .fm-equals-wrap{display:flex;align-items:center;gap:12px}.fm-equals-wrap>b{font-size:26px;color:#1f2937}.fm-realtime{width:72px;height:35px;border:1px solid #e5e7eb;border-radius:8px;background:#f8fafc;display:grid;place-items:center;font:700 22px/1 "Prompt",sans-serif;color:#0f766e;overflow:hidden;padding:0 3px}.fm-realtime.bad{color:#ef4444}.fm-realtime.good{color:#0f766e;background:#ecfdf5;border-color:#6ee7b7}
+#game .fm-condition-btn{border:0;background:none;padding:0;color:#64748b;font:500 13px/1.4 "Prompt",sans-serif}.fm-condition-text{display:none;margin-top:8px;color:#64748b;font-size:12px;line-height:1.5}.fm-condition-text.open{display:block}
+#game .fm-keyboard{border:1px solid #f1f5f9;border-radius:12px;padding:8px;background:#fcfcfc;box-shadow:0 1px 2px rgba(15,23,42,.03);margin-bottom:10px;max-height:500px;opacity:1;overflow:hidden;transition:max-height .25s ease,opacity .25s ease,padding .25s ease}.fm-keyboard.hidden-kbd{max-height:0;opacity:0;padding-top:0;padding-bottom:0;border-color:transparent;margin-bottom:0}
+#game .fm-keygrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.fm-kbd-numbers{grid-column:span 5;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#game .fm-key{height:52px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#1e293b;display:flex;align-items:center;justify-content:center;font:600 20px/1 "Prompt",sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.04);padding:0;user-select:none;touch-action:manipulation}.fm-key:active{transform:translateY(2px);box-shadow:none;background:#f1f5f9}.fm-key.key-used,.fm-key.used,.fm-key:disabled{opacity:.3;pointer-events:none}.fm-ref-digitkey,.fm-digitkey{font-family:"Changa",sans-serif!important;font-size:1.6rem!important;font-weight:800!important}.fm-op{font-size:24px;font-weight:500}.fm-fn{color:#475569}.fm-italic{font-family:serif!important;font-style:italic!important}.fm-wide{grid-column:span 2}
+#game .fm-submit{grid-column:span 2;height:52px;border:0;border-radius:8px;background:#0f766e;color:#fff;font:500 14px/1 "Prompt",sans-serif;display:flex;align-items:center;justify-content:center}.fm-submit:disabled{background:#f1f5f9;color:#94a3b8}
+#game .fm-pow-icon{display:flex;align-items:flex-start}.fm-pow-icon i:first-child{width:14px;height:14px;border:1.5px solid #334155;border-radius:3px}.fm-pow-icon i:last-child{width:10px;height:10px;border:1.5px solid #334155;border-radius:2px;margin-top:-4px;margin-left:2px}.fm-root-icon,.fm-nroot-icon{font-family:serif;font-style:italic;font-size:23px;display:flex;align-items:center}.fm-root-icon i,.fm-nroot-icon i{width:10px;height:10px;background:#cbd5e1;border-top:1px solid #64748b;margin-top:8px}.fm-nroot-icon small{font-size:12px;margin-top:-14px}
+#game .fm-kbd-toggle{display:none!important}
+#game .fm-secondary-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 0}.fm-solution-btn,.fm-next-btn,.fm-home-btn{min-height:44px;border-radius:9px;font:600 14px "Prompt",sans-serif}.fm-home-btn{order:1;border:1px solid #e5e7eb;background:#fff;color:#334155}.fm-solution-btn{order:2;border:1px solid #e5e7eb;background:#fff;color:#334155}.fm-next-btn{order:3;grid-column:1/-1;border:0;background:#dcfce7;color:#166534}
+#game .feedback{margin-top:10px;border-radius:9px;padding:10px 12px;font-family:"Prompt",sans-serif}.feedback:not(.show){display:none}.feedback.good{background:#ecfdf5;border:1px solid #86efac;color:#166534}.feedback.bad{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.feedback.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}.solution{font-family:"Prompt",sans-serif}.fm-support{display:none!important}
+#game .cursor-blink{animation:fmBlink 1s step-end infinite;display:inline-block;width:2px;height:30px;background:#0f766e;vertical-align:middle;flex:0 0 2px}@keyframes fmBlink{0%,100%{opacity:1}50%{opacity:0}}
+#game .math-box{border:1px dashed #cbd5e1;background:#f8fafc;border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.15s;position:relative}.math-box.active{border-color:#0f766e;background:#f0fdfa;box-shadow:0 0 0 2px rgba(15,118,110,.1)}.math-box.has-value{border-color:transparent!important;background:transparent!important;box-shadow:none!important}
+#game [data-slot] [data-type="sigma"]{transform:scale(.65);transform-origin:left center;margin-right:-20px;margin-top:-15px;margin-bottom:-15px}#game [data-slot] [data-type="power"]{transform:scale(.75);transform-origin:left center;margin-right:-10px}
+#game .fm-main-token{font-size:34px;font-family:"Cambria Math","Times New Roman",serif;color:#1e293b;margin:0 1px;cursor:pointer}.fm-paren{font-size:34px;font-family:"Cambria Math","Times New Roman",serif;color:#1e293b;line-height:1}.fm-inner-box{min-width:14px;min-height:44px;height:44px;font-size:34px;font-family:"Cambria Math","Times New Roman",serif;line-height:1}
+#game .fm-power-base{min-width:14px;min-height:44px;height:44px;font-size:34px;font-family:"Cambria Math","Times New Roman",serif;display:inline-flex;align-items:center;justify-content:center;line-height:1}.fm-power-exp{min-width:18px;min-height:26px;height:26px;font-size:20px;font-family:"Cambria Math","Times New Roman",serif;display:inline-flex;align-items:center;justify-content:center;line-height:1;position:relative;top:-16px;margin-left:1px}.fm-power-exp .cursor-blink{height:22px!important}
+#game .fm-sqrt{position:relative;display:inline-block;margin:0 2px;vertical-align:baseline;padding-left:17px}.fm-sqrt>svg{position:absolute;top:0;left:0;width:18px;height:calc(100% + 6px);pointer-events:none}.fm-rootbar{display:inline-block;border-top:2.5px solid #1e293b;padding-top:1px;min-width:24px}.fm-root-box{min-width:24px;min-height:44px;height:44px;font-size:34px;font-family:"Cambria Math","Times New Roman",serif;line-height:1}.fm-nrt .fm-degree{position:absolute;top:2px;left:-6px;z-index:2}.fm-nrt .fm-degree .math-box{min-width:14px;min-height:22px;height:22px;font-size:18px;font-family:"Cambria Math","Times New Roman",serif;line-height:1}
+#game .fm-sigma{display:inline-flex;align-items:center;vertical-align:middle;margin:0 4px}.fm-sigma-stack{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;margin-right:2px}.fm-sigma-mini{min-width:20px;min-height:24px;height:24px;font-size:18px;font-weight:700;margin-bottom:1px}.fm-sigma-glyph{font-family:"Cambria Math","Times New Roman",serif;font-size:52px;line-height:.72}.fm-sigma-bottom{display:flex;align-items:center;margin-top:4px}.fm-sigma-bottom i{font-family:"Cambria Math","Times New Roman",serif;font-size:18px;margin-right:2px}.fm-sigma-expr{display:flex;align-items:center;margin-left:2px}.fm-sigma-expr>span{font-family:"Cambria Math","Times New Roman",serif;font-size:48px;font-weight:300;line-height:1}.fm-sigma-body{min-width:24px;min-height:38px;height:38px;font-size:26px;font-family:"Cambria Math","Times New Roman",serif;line-height:1}
+/* same visual language on the other preserved modes */
+.app{max-width:720px!important}.topbar{font-family:"Prompt",sans-serif}.topbar .logo{background:#0f766e!important}.btn.primary{background:#0f766e!important}.card{border-radius:12px!important;box-shadow:0 1px 2px rgba(15,23,42,.04)!important}.modegrid{gap:12px!important}.modegrid .mode{border:1px solid #e5e7eb!important;background:#fff!important}.modegrid .mode .emoji{background:#f0fdfa!important}.field input,.field select,.finderBox{border-radius:9px!important}.finderStatus,.pill{border-radius:8px!important}
+@media(max-width:430px){#game .fm-app-container{margin:0 auto;border-radius:0;border-left:0;border-right:0;box-shadow:none;min-height:100vh}.fm-pad{padding:12px 10px 20px!important}.fm-small-btn span{display:none}.fm-prompt{gap:6px!important}#game .digit{width:calc((100vw - 132px)/5)!important;max-width:48px!important;min-width:39px!important;height:58px!important;font-size:2.2rem!important}.challengeTarget .target{width:78px!important;height:58px!important;font-size:2rem!important}.fm-math-display{font-size:31px!important;padding-left:6px!important;padding-right:6px!important}.fm-keygrid,.fm-kbd-numbers{gap:7px!important}.fm-key{height:50px!important}}
+</style>
+<style id="v55ExactSlotRoll">
+@keyframes fm-slot-blur{0%{transform:translateY(-6px)}50%{transform:translateY(6px)}100%{transform:translateY(-6px)}}
+#game .slot-rolling{animation:fm-slot-blur .08s infinite linear}
+#game #fmShuffle.fm-shuffle-busy{opacity:.72;pointer-events:none}
 </style>
 
+<style id="v57PracticeActionLayout">
+#game #nextBtn{display:none!important}
+#game #quitBtn{display:flex!important;grid-column:auto!important}
+#game .fm-secondary-actions{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;width:100%!important;margin:6px 0 8px!important}
+#game .fm-secondary-actions .fm-home-btn,#game .fm-secondary-actions .fm-solution-btn{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-width:0!important;min-height:44px!important;margin:0!important;grid-column:auto!important}
+#game .fm-secondary-actions .fm-home-btn{order:1!important}
+#game .fm-secondary-actions .fm-solution-btn{order:2!important}
+#game .fm-kbd-toggle{display:none!important}
+</style>
+
+<style id="v58FinalActionLayout">
+#game .fm-kbd-toggle{display:none!important}
+#game .fm-secondary-actions{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:8px!important;
+  margin:8px 0 0!important;
+  width:100%!important;
+}
+#game .fm-secondary-actions #quitBtn{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  grid-column:1!important;grid-row:1!important;order:1!important;width:100%!important;
+  min-height:44px!important;border:1px solid #e5e7eb!important;background:#fff!important;color:#334155!important;
+}
+#game .fm-secondary-actions #solutionBtn{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  grid-column:2!important;grid-row:1!important;order:2!important;width:100%!important;
+  min-height:44px!important;border:1px solid #e5e7eb!important;background:#fff!important;color:#334155!important;
+}
+#game .fm-secondary-actions #nextBtn{display:none!important}
+</style>
+
+<style id="v65StandardHomeUI">
+/* ===== v65: standardized premium home ===== */
+body{background:#f6f7f9!important;}
+.app{max-width:720px!important;margin:0 auto!important;}
+.topbar{
+  background:rgba(255,255,255,.92)!important;
+  border-bottom:1px solid #e9edf2!important;
+  box-shadow:none!important;
+  padding:18px 20px!important;
+  min-height:84px!important;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.topbar .brand{gap:12px!important;align-items:center!important;}
+.topbar .logo{
+  width:48px!important;height:48px!important;border-radius:14px!important;
+  background:#0f766e!important;color:#fff!important;
+  box-shadow:0 8px 20px rgba(15,118,110,.18)!important;
+  font-size:24px!important;
+}
+.topbar h1{font-size:21px!important;line-height:1.15!important;font-weight:700!important;letter-spacing:-.02em!important;color:#182230!important;margin:0!important;}
+.topbar small{font-size:12px!important;color:#8490a3!important;font-weight:400!important;margin-top:3px!important;display:block!important;}
+.topbar .iconbtn{
+  min-height:42px!important;padding:0 14px!important;border-radius:12px!important;
+  border:1px solid #dfe5ec!important;background:#fff!important;color:#334155!important;
+  font-size:13px!important;font-weight:600!important;box-shadow:0 2px 8px rgba(15,23,42,.04)!important;
+}
+#home{padding:26px 20px 34px!important;}
+#home .home-shell{width:100%;max-width:640px;margin:0 auto;}
+#home .home-heading{margin:4px 2px 18px;}
+#home .home-kicker{font-size:11px;font-weight:700;letter-spacing:.13em;color:#0f766e;margin-bottom:5px;}
+#home .home-heading h2{margin:0;font-size:27px;line-height:1.15;font-weight:750;letter-spacing:-.025em;color:#172033;}
+#home .home-menu{display:grid;gap:12px;}
+#home .home-mode-card{
+  width:100%;min-height:92px;padding:16px 16px 16px 14px;
+  display:grid;grid-template-columns:54px minmax(0,1fr) 24px;align-items:center;gap:14px;
+  border:1px solid #e4e9ef;border-radius:16px;background:#fff;color:#1f2937;
+  text-align:left;cursor:pointer;appearance:none;-webkit-appearance:none;
+  box-shadow:0 3px 12px rgba(15,23,42,.045);
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+#home .home-mode-card:active{transform:scale(.992);background:#fbfcfd;}
+@media(hover:hover){#home .home-mode-card:hover{border-color:#cdd7e1;box-shadow:0 7px 22px rgba(15,23,42,.07);transform:translateY(-1px);}}
+#home .home-mode-icon{
+  width:54px;height:54px;border-radius:15px;display:grid;place-items:center;
+  background:#eef8f6;color:#0f766e;border:1px solid #dcefeb;
+}
+#home .home-mode-icon svg{width:27px;height:27px;}
+#home .home-mode-copy{display:flex;flex-direction:column;min-width:0;gap:4px;}
+#home .home-mode-copy strong{font-size:17px;line-height:1.2;font-weight:700;color:#172033;letter-spacing:-.01em;}
+#home .home-mode-copy small{font-size:12.5px;line-height:1.35;color:#7b8798;font-weight:400;white-space:normal;}
+#home .home-chevron{font-family:Arial,sans-serif;font-size:28px;font-weight:300;color:#a2adba;line-height:1;text-align:center;transform:translateY(-1px);}
+#home .hero,#home .modegrid,#home .sectiontitle,#home .rules{display:none!important;}
+@media(max-width:520px){
+  .topbar{padding:14px 16px!important;min-height:76px!important;}
+  .topbar .logo{width:44px!important;height:44px!important;border-radius:13px!important;}
+  .topbar h1{font-size:19px!important;}
+  .topbar small{font-size:11px!important;}
+  .topbar .iconbtn{min-height:40px!important;padding:0 12px!important;font-size:12px!important;}
+  #home{padding:22px 16px 28px!important;}
+  #home .home-heading{margin-bottom:15px;}
+  #home .home-heading h2{font-size:24px;}
+  #home .home-menu{gap:10px;}
+  #home .home-mode-card{min-height:84px;padding:14px 14px 14px 12px;grid-template-columns:50px minmax(0,1fr) 20px;gap:12px;border-radius:14px;}
+  #home .home-mode-icon{width:50px;height:50px;border-radius:14px;}
+  #home .home-mode-icon svg{width:25px;height:25px;}
+  #home .home-mode-copy strong{font-size:16px;}
+  #home .home-mode-copy small{font-size:11.8px;}
+  #home .home-chevron{font-size:25px;}
+}
+</style>
 </head>
 <body>
 <div class="app">
-  <div class="topbar">
-    <div class="brand"><div class="logo">Σ</div><div><h1>เกมคิดเลขเร็ว</h1><small>ฝึกซ้อม • จำลองการแข่งขัน • ดูวิธีคิด</small></div></div>
-    <button class="iconbtn" id="helpBtn">กติกา / วิธีพิมพ์</button>
+<div class="topbar">
+<div class="brand"><div class="logo">Σ</div><div><h1>เกมคิดเลขเร็ว</h1><small>ฝึกซ้อม • จำลองการแข่งขัน • ดูวิธีคิด</small></div></div>
+<button class="iconbtn" id="helpBtn">กติกา / วิธีพิมพ์</button>
+</div>
+<section class="screen active" id="home">
+  <div class="home-shell">
+    <div class="home-heading">
+      <div class="home-kicker">QUICK MATH</div>
+      <h2>เลือกโหมด</h2>
+    </div>
+
+    <div class="home-menu">
+      <button class="home-mode-card" type="button" onclick="openSetup('practice')">
+        <span class="home-mode-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 4.5A3.5 3.5 0 0 0 6 8v1a3 3 0 0 0-2 2.83V13a3 3 0 0 0 2 2.83V17a3 3 0 0 0 5 2.24V5.76A3.48 3.48 0 0 0 9.5 4.5Z"/><path d="M14.5 4.5A3.5 3.5 0 0 1 18 8v1a3 3 0 0 1 2 2.83V13a3 3 0 0 1-2 2.83V17a3 3 0 0 1-5 2.24V5.76a3.48 3.48 0 0 1 1.5-1.26Z"/><path d="M8 10h3M13 14h3"/></svg>
+        </span>
+        <span class="home-mode-copy">
+          <strong>ฝึกซ้อม</strong>
+          <small>ฝึกต่อเนื่องและดูวิธีคิด</small>
+        </span>
+        <span class="home-chevron" aria-hidden="true">›</span>
+      </button>
+
+      <button class="home-mode-card" type="button" onclick="openSetup('competition')">
+        <span class="home-mode-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v1a4 4 0 0 0 4 4M17 6h3v1a4 4 0 0 1-4 4"/></svg>
+        </span>
+        <span class="home-mode-copy">
+          <strong>แข่งขัน</strong>
+          <small>จำลองการแข่งขันและจับเวลา</small>
+        </span>
+        <span class="home-chevron" aria-hidden="true">›</span>
+      </button>
+
+      <button class="home-mode-card" type="button" onclick="openFinder()">
+        <span class="home-mode-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/><path d="M8.5 11h5M11 8.5v5"/></svg>
+        </span>
+        <span class="home-mode-copy">
+          <strong>หาคำตอบ / วิธีคิด</strong>
+          <small>กรอกโจทย์แล้วค้นหาวิธี</small>
+        </span>
+        <span class="home-chevron" aria-hidden="true">›</span>
+      </button>
+    </div>
   </div>
+</section>
+<section class="screen" id="finder">
+<div class="card">
+<h2 style="margin-top:0">🔎 ระบบหาคำตอบ / วิธีคิด</h2>
 
-  <section id="home" class="screen active">
-    <div class="hero">
-      <h2>คิดให้ไว ใช้เลขให้ครบ 🎯</h2>
-      <p>สุ่มโจทย์ตามโครงสร้างการแข่งขัน: รอบ 1 ใช้เลข 4 ตัว เป้าหมาย 2 หลัก และรอบ 2 ใช้เลข 5 ตัว เป้าหมาย 3 หลัก พร้อมจับเวลา 30 วินาทีต่อข้อ</p>
-    </div>
-    <div class="modegrid">
-      <div class="card mode">
-        <div class="emoji">🧠</div><h3>โหมดฝึกซ้อม</h3>
-        <p>ปรับจำนวนข้อ เวลา และรอบได้ ตรวจคำตอบทันที พร้อมดูจำนวนวิธีคิดทั้งหมดและเลื่อนดูวิธีอื่น ๆ</p>
-        <button class="btn primary" onclick="openSetup('practice')">เริ่มฝึกซ้อม</button>
-      </div>
-      <div class="card mode">
-        <div class="emoji">🏆</div><h3>โหมดแข่งขัน</h3>
-        <p>จำลอง 2 รอบ 30+20 ข้อ ข้อละ 30 วินาที ไม่เฉลยระหว่างแข่ง และสรุปหลังจบ</p>
-        <button class="btn primary" onclick="openSetup('competition')">เริ่มแข่งขัน</button>
-      </div>
-      <div class="card mode">
-        <div class="emoji">🎯</div><h3>เกม 24</h3>
-        <p>ใช้เลข 4 หรือ 5 ตัวให้ครบทุกตัว เพื่อสร้างผลลัพธ์ 24 โดยใช้เฉพาะ + − × ÷ และวงเล็บ พร้อมดูวิธีคิดอื่น ๆ ได้</p>
-        <button class="btn primary" onclick="openSpecialSetup('game24')">เล่นเกม 24</button>
-      </div>
-      <div class="card mode">
-        <div class="emoji">🎲</div><h3>เกม Random</h3>
-        <p>สุ่มโจทย์แบบคิดเลขเร็วด้วยเลข 4 หรือ 5 ตัว แต่จำกัดเครื่องหมายไว้เฉพาะ + − × ÷ พร้อมดูวิธีคิดทั้งหมดที่ระบบพบ</p>
-        <button class="btn primary" onclick="openSpecialSetup('random')">เล่น Random</button>
-      </div>
-      <div class="card mode finderMode">
-        <div class="emoji">🔎</div><h3>ระบบหาคำตอบ / วิธีคิด</h3>
-        <p>มีโจทย์จากที่อื่นก็กรอกเลขโจทย์และผลลัพธ์เป้าหมายได้ ระบบจะค้นหาวิธีคิดตามกติกาของระดับที่เลือก พร้อมเลื่อนดูวิธีอื่น ๆ ที่พบ</p>
-        <button class="btn primary" onclick="openFinder()">เปิดระบบหาคำตอบ</button>
-      </div>
-    </div>
-    <h3 class="sectiontitle">หลักสำคัญที่ระบบยึดตาม</h3>
-    <div class="card rules">
-      ใช้เลขโดดที่สุ่มให้ครบทุกตัวและใช้ได้ตัวละ 1 ครั้ง • เลขที่สุ่มซ้ำได้ไม่เกิน 2 ตัว และเลข 0 มีได้เพียงตัวเดียว • ระดับ ป.1–3 ใช้ + − × ÷ และยกกำลัง • ป.4–6 เพิ่มการถอดราก • ม.1–6 เพิ่มแฟคทอเรียลและซิกมา • ระบบสร้างโจทย์ที่มีวิธีทำถูกต้องอย่างน้อย 1 วิธี เพื่อเหมาะกับการฝึกผ่านหน้าจอ
-    </div>
-  </section>
-
-  <section id="finder" class="screen">
-    <div class="card">
-      <h2 style="margin-top:0">🔎 ระบบหาคำตอบ / วิธีคิด</h2>
-      <p class="finderIntro">สำหรับโจทย์ที่พบจากหนังสือ ใบงาน หรือการแข่งขันอื่น ๆ กรอกเลขโจทย์ 4 หรือ 5 ตัวกับผลลัพธ์ที่ต้องการได้ทันที โดยค่าเริ่มต้นจะค้นหาแบบรวมทุกระดับ หรือจะเลือกกรองตามระดับการแข่งขันก็ได้</p>
-      <div class="formgrid">
-        <div class="field">
-          <label>ระดับ / กติกาที่ใช้ค้นหา</label>
-          <select id="finderLevel">
-            <option value="all" selected>รวมทุกระดับ — ไม่ต้องเลือกชั้น</option>
-            <option value="p13">ประถมศึกษาตอนต้น (ป.1–3)</option>
-            <option value="p46">ประถมศึกษาตอนปลาย (ป.4–6)</option>
-            <option value="m13">มัธยมศึกษาตอนต้น (ม.1–3)</option>
-            <option value="m46">มัธยมศึกษาตอนปลาย (ม.4–6)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>จำนวนเลขในโจทย์</label>
-          <select id="finderDigitCount">
-            <option value="4">4 ตัวเลข</option>
-            <option value="5" selected>5 ตัวเลข</option>
-          </select>
-        </div>
-      </div>
-      <div class="staticinfo" id="finderRuleBox" style="margin-top:12px"></div>
-
-      <div class="finderInputs">
-        <div class="field">
-          <label>เลขโจทย์</label>
-          <div class="finderBox active" id="finderDigitsBox" role="button" tabindex="0"><div class="finderSlots" id="finderDigitsSlots"></div></div>
-        </div>
-        <div class="field">
-          <label>ผลลัพธ์เป้าหมาย</label>
-          <div class="finderBox" id="finderTargetBox" role="button" tabindex="0"><div class="finderTarget placeholder" id="finderTargetText">แตะเพื่อกรอก</div></div>
-        </div>
-      </div>
-      <div class="mini" style="margin-top:8px">แตะช่องที่ต้องการกรอก แล้วใช้แป้นตัวเลขด้านล่าง — ไม่เรียกแป้นพิมพ์มือถือ</div>
-      <div class="finderKeypad" id="finderKeypad"></div>
-
-      <div class="actions">
-        <button class="btn ghost" onclick="goHome()">กลับหน้าหลัก</button>
-        <button class="btn ghost" id="finderClearBtn">ล้างทั้งหมด</button>
-        <button class="btn primary" id="finderSearchBtn">ค้นหาวิธีคิด</button>
-      </div>
-    </div>
-
-    <div class="card finderResult" id="finderResult">
-      <div class="finderResultHead">
-        <div><div class="finderQuery" id="finderQuery"></div><div class="mini" id="finderElapsed" style="margin-top:3px"></div></div>
-        <span class="finderStatus" id="finderStatus"></span>
-      </div>
-      <div id="finderSolutionBody"></div>
-      <div class="solutionnav" id="finderSolutionNav">
-        <button class="btn ghost" id="finderPrevBtn">← วิธีก่อนหน้า</button>
-        <button class="btn ghost" id="finderRandomBtn">สุ่มวิธีอื่น</button>
-        <button class="btn primary" id="finderNextBtn">วิธีถัดไป →</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="specialSetup" class="screen">
-    <div class="card">
-      <h2 id="specialSetupTitle" style="margin-top:0">ตั้งค่าเกม</h2>
-      <p class="finderIntro" id="specialSetupDesc"></p>
-      <div class="formgrid">
-        <div class="field">
-          <label>จำนวนตัวเลขในโจทย์</label>
-          <select id="specialDigitCount">
-            <option value="4" selected>4 ตัวเลข</option>
-            <option value="5">5 ตัวเลข</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>จำนวนข้อ</label>
-          <select id="specialCount"><option>5</option><option selected>10</option><option>20</option><option>30</option><option>50</option></select>
-        </div>
-        <div class="field">
-          <label>เวลาต่อข้อ (วินาที)</label>
-          <input id="specialTime" type="number" min="5" max="300" value="30">
-        </div>
-        <div class="field">
-          <label>กติกา</label>
-          <div class="staticinfo" id="specialRuleBox"><b>+ − × ÷ เท่านั้น</b><br><span class="mini">ใช้เลขทุกตัวให้ครบและใช้แต่ละตัวตามจำนวนที่โจทย์ให้มา • ใช้วงเล็บได้</span></div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn ghost" onclick="goHome()">กลับ</button>
-        <button class="btn primary" id="specialStartBtn">เริ่มเกม</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="setup" class="screen">
-    <div class="card">
-      <h2 id="setupTitle" style="margin-top:0">ตั้งค่า</h2>
-      <div class="formgrid">
-        <div class="field">
-          <label>ระดับการแข่งขัน</label>
-          <select id="level">
-            <option value="p13">ประถมศึกษาตอนต้น (ป.1–3)</option>
-            <option value="p46">ประถมศึกษาตอนปลาย (ป.4–6)</option>
-            <option value="m13" selected>มัธยมศึกษาตอนต้น (ม.1–3)</option>
-            <option value="m46">มัธยมศึกษาตอนปลาย (ม.4–6)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>การสุ่มผลลัพธ์เป้าหมาย</label>
-          <select id="targetMode">
-            <option value="independent" selected>สุ่มเป้าหมายอย่างอิสระ (ค่าเริ่มต้น)</option>
-            <option value="guaranteed">รับประกันว่ามีคำตอบตรงเป้าแน่นอน</option>
-          </select>
-          <div class="mini" style="margin-top:6px">ใช้ได้ทั้งโหมดฝึกซ้อมและแข่งขัน • แบบอิสระอาจมีหรือไม่มีวิธีตรงเป้า</div>
-        </div>
-        <div class="field practiceOnly">
-          <label>รูปแบบโจทย์</label>
-          <select id="roundType">
-            <option value="1">รอบ 1 — 4 ตัวเลข / เป้าหมาย 2 หลัก</option>
-            <option value="2">รอบ 2 — 5 ตัวเลข / เป้าหมาย 3 หลัก</option>
-            <option value="mix">สลับรอบ 1 และ 2</option>
-          </select>
-        </div>
-        <div class="field practiceOnly">
-          <label>จำนวนข้อ</label>
-          <select id="practiceCount"><option>5</option><option selected>10</option><option>20</option><option>30</option><option>50</option></select>
-        </div>
-        <div class="field practiceOnly">
-          <label>เวลาต่อข้อ (วินาที)</label>
-          <input id="practiceTime" type="number" min="10" max="300" value="30">
-        </div>
-        <div class="field">
-          <label>กติกาที่ใช้</label>
-          <div class="staticinfo" id="levelRuleBox">ระบบกำหนดอัตโนมัติตามระดับการแข่งขัน</div>
-        </div>
-        <div class="field competitionOnly">
-          <label>ช่วงพักระหว่างรอบ</label>
-          <select id="breakMode">
-            <option value="skip" selected>ข้ามช่วงพัก (เหมาะกับการซ้อม)</option>
-            <option value="real">พัก 20 นาทีตามกติกา</option>
-          </select>
-        </div>
-      </div>
-      <div class="actions"><button class="btn ghost" onclick="goHome()">กลับ</button><button class="btn primary" id="startBtn">เริ่ม</button></div>
-    </div>
-  </section>
-
-  <section id="game" class="screen">
-    <div class="gamehead">
-      <div><span class="pill" id="modePill">ฝึกซ้อม</span></div>
-      <div class="center"><b id="roundLabel">รอบ 1</b><div class="mini" id="qLabel">ข้อ 1/10</div><div class="mini" id="gameRuleText" style="margin-top:3px"></div></div>
-      <div class="right"><span class="pill">⏱ <span id="timeText">30.0</span> วิ</span></div>
-    </div>
-    <div class="timerbar"><div class="timerfill" id="timerFill"></div></div>
-    <div class="question">
-      <div class="promptline" id="promptLine"></div>
-      <div class="solutionmeta practiceOnlyGame" id="solutionMeta"></div>
-      <div class="inputwrap">
-        <div class="composerLabel">สร้างสมการ</div>
-        <div class="composerShell">
-          <input class="expr" id="expr" type="text" inputmode="none" virtualkeyboardpolicy="manual" readonly autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="แตะเลขและเครื่องหมายเพื่อสร้างวิธีคิด">
-          <div class="composerEquals" aria-hidden="true">=</div>
-        </div>
-        <div class="keypad" id="keypad"></div>
-      </div>
-      <div class="feedback" id="feedback"></div>
-      <div class="solution" id="solution"></div>
-      <div class="actions gameActions">
-        <button class="btn primary" id="submitBtn">= ตรวจคำตอบ</button>
-        <button class="btn ghost practiceOnlyGame" id="solutionBtn">ดูวิธีคิด</button>
-        <button class="btn good practiceOnlyGame" id="nextBtn" style="display:none">ข้อต่อไป</button>
-        <button class="btn danger" id="quitBtn">← กลับหน้าหลัก</button>
-      </div>
-      <div class="mini playHint">แตะเลขจากโจทย์ด้านบนหรือแถวเลขด่วนด้านล่างได้ • ไม่เรียกแป้นพิมพ์มือถือ</div>
-    </div>
-  </section>
-
-  <section id="breakScreen" class="screen">
-    <div class="card breakbox">
-      <div style="font-size:2.2rem">☕</div><h2>พักระหว่างรอบ</h2>
-      <p class="mini">ตามกติกา เมื่อจบรอบที่ 1 พัก 20 นาที ก่อนเริ่มรอบที่ 2</p>
-      <div class="breaktime" id="breakTime">20:00</div>
-      <button class="btn primary" id="skipBreakBtn">เริ่มรอบ 2</button>
-    </div>
-  </section>
-
-  <section id="summary" class="screen">
-    <div class="card">
-      <h2 style="margin-top:0">สรุปผล</h2>
-      <div class="summarygrid" id="summaryGrid"></div>
-      <div class="actions"><button class="btn primary" onclick="goHome()">กลับหน้าหลัก</button><button class="btn ghost" id="retryBtn">เล่นอีกครั้ง</button></div>
-    </div>
-    <div class="review" id="review"></div>
-  </section>
+<div class="formgrid">
+<div class="field">
+<label>โหมดค้นหา</label>
+<select id="finderLevel">
+<option selected="" value="all">รวมทุกระดับ</option>
+<option value="p13">ประถมศึกษาตอนต้น (ป.1–3)</option>
+<option value="p46">ประถมศึกษาตอนปลาย (ป.4–6)</option>
+<option value="m13">มัธยมศึกษาตอนต้น (ม.1–3)</option>
+<option value="m46">มัธยมศึกษาตอนปลาย (ม.4–6)</option>
+<option value="game24">เกม 24</option>
+<option value="random">Random</option>
+</select>
+</div>
+<div class="field">
+<label>จำนวนเลขในโจทย์</label>
+<select id="finderDigitCount">
+<option value="4">4 ตัวเลข</option>
+<option selected="" value="5">5 ตัวเลข</option>
+</select>
+</div>
 </div>
 
+<div class="finderInputs">
+<div class="field">
+<label>เลขโจทย์</label>
+<div class="finderBox active" id="finderDigitsBox" role="button" tabindex="0"><div class="finderSlots" id="finderDigitsSlots"></div></div>
+</div>
+<div class="field">
+<label>ผลลัพธ์เป้าหมาย</label>
+<div class="finderBox" id="finderTargetBox" role="button" tabindex="0"><div class="finderTarget placeholder" id="finderTargetText">แตะเพื่อกรอก</div></div>
+</div>
+</div>
+<button class="btn primary finderSearchWide" id="finderSearchBtn">ค้นหาวิธีคิด</button>
+
+<div class="finderKeypad" id="finderKeypad"></div>
+<div class="actions compact-actions">
+<button class="btn ghost" onclick="goHome()">กลับหน้าหลัก</button>
+<button class="btn ghost" id="finderClearBtn">ล้างทั้งหมด</button>
+</div>
+</div>
+<div class="card finderResult" id="finderResult">
+<div class="finderResultHead">
+<div><div class="finderQuery" id="finderQuery"></div><div class="mini" id="finderElapsed" style="margin-top:3px"></div></div>
+<span class="finderStatus" id="finderStatus"></span>
+</div>
+<div id="finderSolutionBody"></div>
+<div class="solutionnav" id="finderSolutionNav">
+<button class="btn ghost" id="finderPrevBtn">← วิธีก่อนหน้า</button>
+<button class="btn ghost" id="finderRandomBtn">สุ่มวิธีอื่น</button>
+<button class="btn primary" id="finderNextBtn">วิธีถัดไป →</button>
+</div>
+</div>
+</section>
+<section class="screen" id="specialSetup">
+<div class="card">
+<h2 id="specialSetupTitle" style="margin-top:0">ตั้งค่าเกม</h2>
+<p class="finderIntro" id="specialSetupDesc"></p>
+<div class="formgrid">
+<div class="field">
+<label>จำนวนตัวเลขในโจทย์</label>
+<select id="specialDigitCount">
+<option selected="" value="4">4 ตัวเลข</option>
+<option value="5">5 ตัวเลข</option>
+</select>
+</div>
+<div class="field">
+<label>จำนวนข้อ</label>
+<select id="specialCount"><option>5</option><option selected="">10</option><option>20</option><option>30</option><option>50</option></select>
+</div>
+<div class="field">
+<label>เวลาต่อข้อ (วินาที)</label>
+<input id="specialTime" max="300" min="5" type="number" value="30"/>
+</div>
+<div class="field">
+<label>กติกา</label>
+<div class="staticinfo" id="specialRuleBox"></div>
+</div>
+</div>
+<div class="actions">
+<button class="btn ghost" onclick="goHome()">กลับ</button>
+<button class="btn primary" id="specialStartBtn">เริ่มเกม</button>
+</div>
+</div>
+</section>
+<section class="screen" id="setup">
+<div class="card">
+<h2 id="setupTitle" style="margin-top:0">ตั้งค่า</h2>
+<div class="formgrid">
+<div class="field">
+<label>ระดับการแข่งขัน</label>
+<select id="level">
+<option value="p13">ประถมศึกษาตอนต้น (ป.1–3)</option>
+<option value="p46">ประถมศึกษาตอนปลาย (ป.4–6)</option>
+<option selected="" value="m13">มัธยมศึกษาตอนต้น (ม.1–3)</option>
+<option value="m46">มัธยมศึกษาตอนปลาย (ม.4–6)</option>
+<option value="game24">เกม 24 — ใช้ + − × ÷ / เป้าหมาย 24</option>
+<option value="random">เกม Random — ใช้เฉพาะ + − × ÷</option>
+</select>
+</div>
+<div class="field" id="targetModeField">
+<label>การสุ่มผลลัพธ์เป้าหมาย</label>
+<select id="targetMode">
+<option selected="" value="independent">สุ่มเป้าหมายอย่างอิสระ (ค่าเริ่มต้น)</option>
+<option value="guaranteed">รับประกันว่ามีคำตอบตรงเป้าแน่นอน</option>
+</select>
+
+</div>
+<div class="field practiceOnly">
+<label>รูปแบบโจทย์</label>
+<select id="roundType">
+<option value="1">รอบ 1 — 4 ตัวเลข / เป้าหมาย 2 หลัก</option>
+<option value="2">รอบ 2 — 5 ตัวเลข / เป้าหมาย 3 หลัก</option>
+<option value="mix">สลับรอบ 1 และ 2</option>
+</select>
+</div>
+<div class="field practiceOnly">
+<label>เวลาต่อข้อ (วินาที)</label>
+<input id="practiceTime" max="300" min="10" type="number" value="30"/>
+</div>
+<div class="field">
+<label>กติกาที่ใช้</label>
+<div class="staticinfo" id="levelRuleBox"></div>
+</div>
+<div class="field competitionOnly">
+<label>ช่วงพักระหว่างรอบ</label>
+<select id="breakMode">
+<option selected="" value="skip">ข้ามช่วงพัก (เหมาะกับการซ้อม)</option>
+<option value="real">พัก 20 นาทีตามกติกา</option>
+</select>
+</div>
+</div>
+<div class="actions"><button class="btn ghost" onclick="goHome()">กลับ</button><button class="btn primary" id="startBtn">เริ่ม</button></div>
+</div>
+</section>
+<section class="screen" id="game">
+<div class="fm-app-container">
+<div class="fm-pad">
+<div class="fm-top-controls">
+<div class="fm-top-left">
+<button class="fm-small-btn" id="fmGameSettings" type="button">⚙ <span>ตั้งค่า</span></button>
+<button class="fm-small-btn" id="fmGameHelp" type="button">ⓘ <span>วิธีเล่น</span></button>
+</div>
+<div class="fm-timer" id="timer-display">⏱ <span id="timeText">0.0</span></div>
+</div>
+<div class="fm-prompt" id="promptLine"></div>
+<div class="fm-level-row">
+<div class="fm-level"><span class="fm-cube">🧊</span><span id="roundLabel">Lv 1</span></div>
+<div class="fm-qmeta" id="qLabel"></div>
+</div>
+<div class="fm-rule-support" id="gameRuleText"></div>
+<div class="fm-random-row">
+<button class="fm-reset" id="fmResetExpr" type="button">↻ รีเซ็ต</button>
+<button class="fm-random" id="fmShuffle" type="button">▶ สุ่ม</button>
+</div>
+<div class="fm-input-panel">
+<div class="fm-display-shell">
+<div aria-label="สมการที่กำลังสร้าง" class="fm-math-display lining-nums" id="math-display" role="textbox"><span class="cursor-blink main-cursor"></span></div>
+<input aria-hidden="true" autocomplete="off" id="expr" inputmode="none" readonly="" spellcheck="false" tabindex="-1" type="text"/>
+</div>
+<div class="fm-input-toolbar">
+<div class="fm-equals-wrap"><b>=</b><div class="fm-realtime" id="realtime-result"></div></div>
+</div>
+</div>
+<div class="fm-keyboard keyboard-area" id="keyboard-container">
+<div class="fm-keygrid">
+<div class="fm-kbd-numbers" id="kbd-numbers"></div>
+<button aria-label="ลบ" class="key-btn fm-key" id="btn-backspace" type="button">⌫</button>
+<button class="key-btn op-btn fm-key fm-op" data-val="+" type="button">+</button>
+<button class="key-btn op-btn fm-key fm-op" data-val="-" type="button">−</button>
+<button class="key-btn op-btn fm-key fm-op" data-val="*" type="button">×</button>
+<button class="key-btn op-btn fm-key fm-op" data-val="/" type="button">÷</button>
+<button class="key-btn op-btn fm-key fm-op" data-val="(" type="button">(</button>
+<button class="key-btn op-btn fm-key fm-op" data-val=")" type="button">)</button>
+<button aria-label="ยกกำลัง" class="key-btn fm-key fm-fn" id="btn-pow" type="button"><span class="fm-pow-icon"><i></i><i></i></span></button>
+<button aria-label="รากที่สอง" class="key-btn fm-key fm-fn" id="btn-sqrt" type="button"><span class="fm-root-icon">√<i></i></span></button>
+<button aria-label="รากอันดับ n" class="key-btn fm-key fm-fn" id="btn-nrt" type="button"><span class="fm-nroot-icon"><small>n</small>√<i></i></span></button>
+<button class="key-btn op-btn fm-key fm-fn" data-val="!" id="btn-fac" type="button">!</button>
+<button class="key-btn fm-key fm-fn" id="btn-sum" type="button">Σ</button>
+<button class="key-btn op-btn fm-key fm-fn fm-italic" data-val="i" id="btn-i" type="button">i</button>
+<button class="key-btn fm-key fm-wide" id="fmArrowLeft" type="button">←</button>
+<button class="key-btn fm-key fm-wide" id="fmArrowRight" type="button">→</button>
+<button class="key-btn fm-submit" id="submitBtn" type="button">ส่งคำตอบ ↵</button>
+</div>
+</div>
+<div class="fm-kbd-toggle"><button id="btn-toggle-kbd" type="button">ซ่อนแป้นพิมพ์</button></div>
+<div class="feedback" id="feedback"></div>
+<div class="solution" id="solution"></div>
+<div class="fm-secondary-actions">
+<button class="fm-solution-btn practiceOnlyGame" id="solutionBtn" type="button">ดูวิธีคิด</button>
+<button class="fm-next-btn practiceOnlyGame" id="nextBtn" style="display:none" type="button">ข้อต่อไป</button>
+<button class="fm-home-btn" id="quitBtn" type="button">← กลับหน้าหลัก</button>
+</div>
+<div aria-hidden="true" class="fm-support"><span id="modePill"></span><div class="timerbar"><div class="timerfill" id="timerFill"></div></div></div>
+</div>
+</div>
+</section>
+<section class="screen" id="breakScreen">
+<div class="card breakbox">
+<div style="font-size:2.2rem">☕</div><h2>พักระหว่างรอบ</h2>
+<p class="mini">ตามกติกา เมื่อจบรอบที่ 1 พัก 20 นาที ก่อนเริ่มรอบที่ 2</p>
+<div class="breaktime" id="breakTime">20:00</div>
+<button class="btn primary" id="skipBreakBtn">เริ่มรอบ 2</button>
+</div>
+</section>
+<section class="screen" id="summary">
+<div class="card">
+<h2 style="margin-top:0">สรุปผล</h2>
+<div class="summarygrid" id="summaryGrid"></div>
+<div class="actions"><button class="btn primary" onclick="goHome()">กลับหน้าหลัก</button><button class="btn ghost" id="retryBtn">เล่นอีกครั้ง</button></div>
+</div>
+<div class="review" id="review"></div>
+</section>
+</div>
 <div class="toast" id="toast"></div>
-
 <dialog id="help">
-  <div class="dialogbody">
-    <button class="iconbtn closex" onclick="document.getElementById('help').close()">✕</button>
-    <h3>กติกาและรูปแบบการพิมพ์</h3>
-    <div class="rules">
-      <b>การแข่งขัน:</b> รอบ 1 จำนวน 30 ข้อ ข้อละ 30 วินาที ใช้เลข 4 ตัว เป้าหมาย 2 หลัก; รอบ 2 จำนวน 20 ข้อ ข้อละ 30 วินาที ใช้เลข 5 ตัว เป้าหมาย 3 หลัก<br><br>
-      <b>เกม 24 / Random:</b> เลือกเลข 4 หรือ 5 ตัวได้ ใช้เฉพาะ + − × ÷ และวงเล็บ โดยต้องใช้เลขทุกตัวให้ครบ เกม 24 กำหนดเป้าหมายเป็น 24 ส่วน Random จะสุ่มเป้าหมายที่มีวิธีทำแน่นอน<br><br>
-      <b>กติกาตามระดับ:</b> ระบบจะกำหนดเครื่องมือที่อนุญาตให้อัตโนมัติเมื่อเลือกระดับการแข่งขัน — ป.1–3 ใช้ + − × ÷ และยกกำลัง; ป.4–6 เพิ่มรากอันดับที่ n; ม.1–6 เพิ่มแฟคทอเรียลและซิกมา<br><br>
-      <b>ใช้เลข:</b> ต้องใช้เลขที่โจทย์ให้มาครบทุกตัว และแต่ละตัวใช้ได้ครั้งเดียว การเรียงเลขติดกันเป็น 2 หลัก เช่น 12 ไม่อนุญาตในระบบนี้<br><br>
-      <b>พิมพ์เครื่องหมาย:</b> <code>+ - * / ^ ( )</code> หรือพิมพ์ <code>× ÷</code> ได้<br>
-      <b>ราก:</b> <code>sqrt(4)</code> = √4, และ <code>root(3,8)</code> = ∛8 (เลขอันดับรากจะนับเป็นเลขที่ใช้จากโจทย์)<br>
-      <b>แฟคทอเรียล:</b> ใช้ <code>3!</code> หรือ <code>fact(3)</code><br>
-      <b>ซิกมา:</b> ใช้รูป <code>sum(1,5,i)</code>, <code>sum(1,5,i*i)</code>, <code>sum(1,5,fact(i))</code> โดย i ในพจน์หลัง Σ ใช้ได้ไม่เกิน 2 ตัว<br><br>
-      <b>หมายเหตุเรื่องคะแนน:</b> โหมดฝึกซ้อมคนเดียวจำลองคู่แข่งด้วยตัวค้นหาของระบบ: ถ้ามีวิธีตรงเป้า ต้องตอบตรงเป้าจึงได้ 2 คะแนน; ถ้าระบบไม่พบวิธีตรงเป้า คำตอบที่ถูกกติกาและมีระยะห่างเท่ากับค่าที่ใกล้ที่สุดที่ระบบพบจะได้ 2 คะแนน ส่วนคำตอบที่ไกลกว่านั้นได้ 0 คะแนน • โหมดแข่งขันจริงยังต้องเปรียบเทียบกับผู้แข่งขันคนอื่นตามกติกา
+<div class="dialogbody">
+<button class="iconbtn closex" onclick="document.getElementById('help').close()">✕</button>
+<h3>กติกาและรูปแบบการพิมพ์</h3>
+<div class="rules">
+<b>การแข่งขัน:</b> รอบ 1 จำนวน 30 ข้อ ข้อละ 30 วินาที ใช้เลข 4 ตัว เป้าหมาย 2 หลัก; รอบ 2 จำนวน 20 ข้อ ข้อละ 30 วินาที ใช้เลข 5 ตัว เป้าหมาย 3 หลัก<br/><br/>
+<b>เกม 24 / Random:</b> เลือกเลข 4 หรือ 5 ตัวได้ ใช้เฉพาะ + − × ÷ และวงเล็บ โดยต้องใช้เลขทุกตัวให้ครบ เกม 24 กำหนดเป้าหมายเป็น 24 ส่วน Random จะสุ่มเป้าหมายที่มีวิธีทำแน่นอน<br/><br/>
+<b>กติกาตามระดับ:</b> ระบบจะกำหนดเครื่องมือที่อนุญาตให้อัตโนมัติเมื่อเลือกระดับการแข่งขัน — ป.1–3 ใช้ + − × ÷ และยกกำลัง; ป.4–6 เพิ่มรากอันดับที่ n; ม.1–6 เพิ่มแฟคทอเรียลและซิกมา<br/><br/>
+<b>ใช้เลข:</b> ต้องใช้เลขที่โจทย์ให้มาครบทุกตัว และแต่ละตัวใช้ได้ครั้งเดียว การเรียงเลขติดกันเป็น 2 หลัก เช่น 12 ไม่อนุญาตในระบบนี้<br/><br/>
+<b>พิมพ์เครื่องหมาย:</b> <code>+ - * / ^ ( )</code> หรือพิมพ์ <code>× ÷</code> ได้<br/>
+<b>ราก:</b> <code>sqrt(4)</code> = √4, และ <code>root(3,8)</code> = ∛8 (เลขอันดับรากจะนับเป็นเลขที่ใช้จากโจทย์)<br/>
+<b>แฟคทอเรียล:</b> ใช้ <code>3!</code> หรือ <code>fact(3)</code><br/>
+<b>ซิกมา:</b> ใช้รูป <code>sum(1,5,i)</code>, <code>sum(1,5,i*i)</code>, <code>sum(1,5,fact(i))</code> โดย i ในพจน์หลัง Σ ใช้ได้ไม่เกิน 2 ตัว<br/><br/>
+<b>หมายเหตุเรื่องคะแนน:</b> โหมดฝึกซ้อมคนเดียวจำลองคู่แข่งด้วยตัวค้นหาของระบบ: ถ้ามีวิธีตรงเป้า ต้องตอบตรงเป้าจึงได้ 2 คะแนน; ถ้าระบบไม่พบวิธีตรงเป้า คำตอบที่ถูกกติกาและมีระยะห่างเท่ากับค่าที่ใกล้ที่สุดที่ระบบพบจะได้ 2 คะแนน ส่วนคำตอบที่ไกลกว่านั้นได้ 0 คะแนน • โหมดแข่งขันจริงยังต้องเปรียบเทียบกับผู้แข่งขันคนอื่นตามกติกา
     </div>
-  </div>
+</div>
 </dialog>
-
 <dialog id="solutionBrowser">
-  <div class="dialogbody">
-    <button class="iconbtn closex" onclick="document.getElementById('solutionBrowser').close()">✕</button>
-    <h3 id="solutionBrowserTitle">วิธีคิดทั้งหมด</h3>
-    <div id="solutionBrowserBody"></div>
-    <div class="solutionnav" id="solutionBrowserNav">
-      <button class="btn ghost" id="browserPrevBtn">← วิธีก่อนหน้า</button>
-      <button class="btn ghost" id="browserRandomBtn">สุ่มวิธีอื่น</button>
-      <button class="btn primary" id="browserNextBtn">วิธีถัดไป →</button>
-    </div>
-  </div>
+<div class="dialogbody">
+<button class="iconbtn closex" onclick="document.getElementById('solutionBrowser').close()">✕</button>
+<h3 id="solutionBrowserTitle">วิธีคิดทั้งหมด</h3>
+<div id="solutionBrowserBody"></div>
+<div class="solutionnav" id="solutionBrowserNav">
+<button class="btn ghost" id="browserPrevBtn">← วิธีก่อนหน้า</button>
+<button class="btn ghost" id="browserRandomBtn">สุ่มวิธีอื่น</button>
+<button class="btn primary" id="browserNextBtn">วิธีถัดไป →</button>
+</div>
+</div>
 </dialog>
 
 
@@ -585,264 +767,8 @@ kbd{border:1px solid #cbd5e1;background:#f8fafc;border-bottom-width:2px;border-r
 
 
 
-<style>
-/* ===== Structured Sigma composer — FastMath-like visual entry ===== */
-#game .composerShell{position:relative;min-height:92px!important}
-#game #expr{
-  position:absolute!important;left:10px!important;bottom:4px!important;width:1px!important;height:1px!important;
-  min-height:1px!important;padding:0!important;border:0!important;opacity:0!important;pointer-events:none!important;
-}
-#game .visualExpression{
-  min-height:88px;display:flex;align-items:center;gap:.08em;padding:12px 16px;
-  overflow-x:auto;overflow-y:hidden;white-space:nowrap;font-size:1.48rem;font-weight:500;color:#111827;
-  font-family:"Cambria Math","STIX Two Math","Times New Roman","Noto Sans Thai",serif;
-  scrollbar-width:thin;cursor:text;-webkit-overflow-scrolling:touch;
-}
-#game .visualExpression.empty{font-family:inherit;font-size:1.08rem;color:#94a3b8;font-weight:500}
-#game .visualExpression .visual-caret{display:inline-block;width:2px;height:1.25em;background:#315bb5;margin-left:2px;vertical-align:-.18em;animation:vmCaret 1s steps(1) infinite}
-@keyframes vmCaret{50%{opacity:0}}
-#game .visualExpression math.visual-sigma{font-size:1.12em;vertical-align:middle;margin:0 .12em}
-#game .visualExpression math.visual-sigma mo[largeop="true"]{font-size:1.12em}
-
-#game .sigmaBuilder{
-  margin-top:10px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;padding:12px;
-  box-shadow:0 8px 24px rgba(15,23,42,.08)
-}
-#game .sigmaBuilder[hidden]{display:none!important}
-#game .sigmaBuilderHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
-#game .sigmaBuilderHead b{font-size:.95rem;color:#172033}
-#game .sigmaBuilderHead span{font-size:.76rem;color:#64748b}
-#game .sigmaStage{
-  min-height:132px;border:1px solid #d7dfeb;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;
-  padding:12px;overflow-x:auto
-}
-#game .sigmaVisual{display:inline-flex;align-items:center;gap:12px;font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;color:#111827}
-#game .sigmaOpGrid{display:grid;grid-template-rows:auto auto auto;justify-items:center;align-items:center;line-height:1}
-#game .sigmaSymbol{font-size:4.5rem;line-height:.72;font-weight:400;margin:.04em 0}
-#game .sigmaBoundRow{display:flex;align-items:center;gap:3px;font-size:1.03rem;line-height:1.05}
-#game .sigmaSlot{
-  border:1px solid #bfdbfe;background:#eff6ff;color:#172033;border-radius:6px;min-width:42px;min-height:31px;padding:3px 7px;
-  font:inherit;font-size:.98rem;line-height:1;display:inline-flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(59,130,246,.04)
-}
-#game .sigmaSlot.active{border:2px solid #3b82f6;background:#dbeafe;box-shadow:0 0 0 3px rgba(59,130,246,.12)}
-#game .sigmaSlot.placeholder{color:#94a3b8}
-#game .sigmaBodyWrap{display:flex;align-items:center;font-size:3rem;line-height:1}
-#game .sigmaBodySlot{min-width:94px;min-height:52px;font-size:1.45rem;margin:0 3px}
-#game .sigmaPresets{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 8px}
-#game .sigmaPreset{border:1px solid #dbe2ec;background:#fff;border-radius:9px;padding:7px 10px;font-weight:800;color:#334155}
-#game .sigmaPreset:hover{background:#f1f5f9}
-#game .sigmaMiniPad{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin-top:8px}
-#game .sigmaMiniKey{min-height:40px;border:1px solid #dbe2ec;background:#fff;border-radius:8px;font-weight:850;color:#172033;padding:5px 2px}
-#game .sigmaMiniKey.fn{background:#ecfeff;color:#155e75}
-#game .sigmaMiniKey.edit{background:#fff7ed;color:#9a3412}
-#game .sigmaMiniKey.used{opacity:.32}
-#game .sigmaBuilderActions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
-#game .sigmaBuilderActions .btn{min-height:42px!important;padding:8px 14px!important}
-#game .sigmaHint{font-size:.76rem;color:#64748b;margin-top:8px;line-height:1.45}
-#game .sigmaKeyBadge{display:inline-flex;align-items:center;gap:5px;border:1px solid #bae6fd;background:#ecfeff;color:#155e75;border-radius:999px;padding:3px 8px;font-size:.72rem;font-weight:800;margin-left:6px}
-
-@media(max-width:720px){
-  #game .composerShell{min-height:82px!important}
-  #game .visualExpression{min-height:78px;padding:10px 11px;font-size:1.28rem}
-  #game .sigmaBuilder{padding:9px;border-radius:10px}
-  #game .sigmaStage{min-height:116px;padding:9px}
-  #game .sigmaSymbol{font-size:4rem}
-  #game .sigmaBodyWrap{font-size:2.5rem}
-  #game .sigmaBodySlot{min-width:78px;min-height:47px;font-size:1.24rem}
-  #game .sigmaMiniPad{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
-  #game .sigmaMiniKey{min-height:42px}
-}
-@media(max-width:430px){
-  #game .sigmaVisual{gap:7px}
-  #game .sigmaSymbol{font-size:3.6rem}
-  #game .sigmaSlot{min-width:36px;min-height:29px;padding:3px 5px}
-  #game .sigmaBodySlot{min-width:68px;font-size:1.12rem}
-  #game .sigmaMiniPad{grid-template-columns:repeat(5,minmax(0,1fr))}
-}
-</style>
 
 
-
-<style>
-/* ===== PLAY UI v4 — direct structured entry from the supplied FastMath usage video ===== */
-#game #sigmaBuilder{display:none!important}
-#game .composerShell{min-height:118px!important;border:1px solid #b9c7d9!important;background:#fff!important;display:flex!important;align-items:center!important;justify-content:center!important}
-#game .visualExpression{width:100%;min-height:114px!important;justify-content:center;padding:18px 20px!important;font-size:2rem!important;overflow-x:auto!important;cursor:default!important}
-#game .visualExpression.empty{font-family:inherit!important;font-size:1rem!important;color:#94a3b8!important}
-#game .visualExpression .fast-ph{display:inline-flex;align-items:center;justify-content:center;min-width:.88em;height:1.08em;padding:0 .06em;margin:0 .05em;border:1px solid #94a3b8;border-radius:3px;background:#f8fafc;color:transparent;vertical-align:-.08em;box-sizing:border-box}
-#game .visualExpression .fast-ph.active{border:2px solid #2f6fbd;background:#dbeafe;box-shadow:0 0 0 2px rgba(47,111,189,.12)}
-#game .visualExpression .fast-token{display:inline-flex;align-items:center;justify-content:center;min-height:1.08em;padding:0 .02em;cursor:pointer;border-radius:4px}
-#game .visualExpression .fast-token:hover,#game .visualExpression [data-pos]:hover{background:#eef2ff}
-#game .visualExpression .visual-power-inline{display:inline-flex;align-items:flex-start;gap:.02em;height:1.08em;min-height:1.08em;vertical-align:baseline;font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;line-height:1;overflow:visible}
-#game .visualExpression .visual-power-inline .pow-base-slot{font-size:1em;min-width:.88em;height:1.08em;min-height:1.08em;margin:0;line-height:1;align-self:flex-end}
-#game .visualExpression .visual-power-inline sup{display:inline-flex;align-items:flex-start;font-size:.58em;line-height:1;margin:0;position:relative;top:-.48em;vertical-align:baseline;overflow:visible}
-#game .visualExpression .visual-power-inline .pow-exp-slot{min-width:.72em;min-height:.80em;height:.80em;padding:0 .05em;line-height:1}
-#game .visualExpression .fast-token{line-height:1;vertical-align:baseline}
-#game .visualExpression .pow-slot{display:inline-flex;align-items:center;justify-content:center;padding:0 .05em;border:1px solid #94a3b8;border-radius:4px;background:#fff;cursor:pointer;box-sizing:border-box;color:#111827}
-#game .visualExpression .pow-slot.pow-filled{border-color:transparent;background:transparent;min-width:auto;padding:0 .01em}
-#game .visualExpression .pow-slot.pow-filled.active{padding:0 .01em!important}
-#game .visualExpression .pow-base-slot,#game .visualExpression .pow-exp-slot{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-#game .visualExpression .pow-slot.active{border-color:transparent!important;background:transparent!important;box-shadow:none!important;outline:none!important}
-#game .visualExpression .pow-slot:hover{background:#f8fafc}
-#game .visualExpression .pow-slot .pow-empty{display:block;width:.58em;height:.72em;border:1px solid #94a3b8;border-radius:3px;background:#fff}
-#game .visualExpression .pow-caret,#game .visualExpression .inline-caret{display:inline-block;width:2px;background:#1672b8;vertical-align:baseline;animation:fastBlink 1s steps(1,end) infinite;flex:0 0 2px}
-#game .visualExpression .pow-caret-base,#game .visualExpression .inline-caret{height:1.02em;margin:0 .025em}
-#game .visualExpression .pow-caret-exp{height:.78em;width:1.5px;flex-basis:1.5px;margin:0 .02em;background:#1672b8}
-@keyframes fastBlink{0%,46%{opacity:1}47%,100%{opacity:0}}
-#game .visualExpression .visual-caret{display:none!important}
-#game .visualExpression math.visual-sigma{font-size:1.32em!important;margin:0 .08em!important}
-#game .visualExpression .fast-root{display:none} /* legacy renderer retained only for backward compatibility */
-#game .visualExpression math.visual-root{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.18em;vertical-align:middle;margin:0 .08em}
-#game .visualExpression math.visual-root msqrt,#game .visualExpression math.visual-root mroot{font-size:1em}
-#game .visualExpression .fast-mph,#game .visualExpression .fast-mph-active{font-family:inherit;font-size:.85em}
-#game .visualExpression .fast-mph-active{color:#1d4ed8;background:#dbeafe}
-#game .referencePad{padding:12px!important}
-#game .refPadTitle{display:none!important}
-#game .refDigits{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:9px!important;margin-bottom:9px!important}
-#game .quick-digit{height:54px!important}
-#game .refOps,#game .refFuncs{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:9px!important}
-#game .fastNavRow{display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:9px;margin-top:9px}
-#game .fastNavRow .key{min-height:52px!important;font-size:1.3rem!important}
-#game .fastSubmitKey{background:#355db3!important;color:#fff!important;border-color:#355db3!important;font-size:1rem!important;font-weight:900!important}
-#game .fastHint{font-size:.74rem;color:#64748b;margin-top:8px;text-align:right}
-#game .powKeyIcon{position:relative;display:inline-block;width:30px;height:24px;vertical-align:middle}
-#game .powKeyIcon .powBase{position:absolute;left:3px;bottom:2px;width:15px;height:15px;border-radius:2px;background:#b7bbc2}
-#game .powKeyIcon .powExp{position:absolute;left:17px;top:1px;width:10px;height:10px;border-radius:1px;background:#d1d5db}
-#game .visualExpression math.visual-power{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.18em;vertical-align:middle;margin:0 .04em}
-#game .visualExpression math.visual-power msup{font-size:1em}
-
-
-#game .fastNavRow4{display:grid!important;grid-template-columns:1.15fr 1.15fr 1fr 1fr!important;gap:8px!important;margin-top:10px}
-#game .fastSubmitRow{display:grid;grid-template-columns:1fr;margin-top:8px}
-#game .clearKey{background:#fff1f2!important;color:#9f1239!important;border-color:#fecdd3!important}
-#game .equationPreview:not(.empty):not(.status-good):not(.status-bad):not(.status-warn):not(.status-info){background:#eff6ff!important;border-color:#60a5fa!important;color:#1d4ed8!important;box-shadow:0 0 0 2px rgba(59,130,246,.08);font-size:1.22rem!important}
-#game .equationPreview.status-good .preview-main,#game .equationPreview.status-good .preview-note{color:#166534!important}
-#game .equationPreview.status-bad .preview-main,#game .equationPreview.status-bad .preview-note{color:#991b1b!important}
-#game .equationPreview.status-warn .preview-main,#game .equationPreview.status-warn .preview-note{color:#92400e!important}
-#game .equationPreview.status-info .preview-main,#game .equationPreview.status-info .preview-note{color:#1e40af!important}
-#game .equationResultWrap:has(.equationPreview:not(.empty)) .equationEqualSign{color:#1d4ed8}
-#game .equationFooterTools span{font-size:0}
-#game .equationFooterTools span:after{content:'แตะตำแหน่งในสมการเพื่อเลือกเอง • เส้นกะพริบคือจุดที่กำลังกรอก • ใช้ ← → เลื่อนได้';font-size:.76rem}
-@media(max-width:720px){
- #game .composerShell{min-height:98px!important}
- #game .visualExpression{min-height:94px!important;font-size:1.55rem!important;padding:12px 10px!important}
- #game .refDigits,#game .refOps,#game .refFuncs{gap:6px!important}
- #game .quick-digit,#game .key{min-height:48px!important;height:48px!important}
- #game .fastNavRow{gap:6px}
-}
-@media(max-width:430px){
- #game .refDigits,#game .refOps,#game .refFuncs{grid-template-columns:repeat(6,minmax(0,1fr))!important}
- #game .quick-digit,#game .key{font-size:.92rem!important;padding:4px 1px!important}
- #game .visualExpression{font-size:1.36rem!important}
- #game .fastNavRow{grid-template-columns:1fr 1fr 1.25fr}
-}
-</style>
-
-
-
-<style id="homeButtonVisibilityFix">
-#game #quitBtn{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:100%!important;
-  grid-column:1/-1!important;
-  min-height:46px!important;
-  margin-top:4px!important;
-  background:#fff7f7!important;
-  border:1px solid #fecaca!important;
-  color:#991b1b!important;
-  font-weight:850!important;
-}
-#game #quitBtn:active{transform:scale(.99)}
-</style>
-
-
-<style id="stableFastMathStyle">
-:root{--fm-blue:#2d62bb;--fm-ink:#17243a;--fm-line:#e2e7ee}
-body{background:#fff!important;color:var(--fm-ink)!important}
-.app{max-width:760px!important;padding:0 18px 38px!important}
-.topbar{position:sticky!important;top:0!important;z-index:60!important;background:#fff!important;margin:0 -18px 20px!important;padding:16px 18px!important;border-bottom:1px solid #eef1f5!important}
-.logo{width:54px!important;height:54px!important;border-radius:16px!important;background:linear-gradient(135deg,#3477ff,#10c9f5)!important;box-shadow:none!important}
-.brand h1{font-size:1.65rem!important;font-weight:950!important;color:#17243a!important}.brand small{font-size:.94rem!important;color:#667085!important}
-#helpBtn{background:#fff!important;border:1px solid #e1e7ef!important;border-radius:14px!important;font-weight:850!important;box-shadow:0 2px 5px rgba(15,23,42,.05)!important}
-.headerHomeIcon{width:54px!important;height:54px!important;min-width:54px!important;border:1px solid #e1e7ef!important;border-radius:16px!important;background:#fff!important;color:#17243a!important;font-size:1.8rem!important;font-weight:950!important;padding:0!important;margin:0!important;box-shadow:0 2px 5px rgba(15,23,42,.05)!important}
-#setup{pointer-events:auto!important}#setup *{pointer-events:auto}
-#setup .field:has(#practiceCount){display:none!important}
-#game .gamehead{background:transparent!important;border:0!important;box-shadow:none!important;padding:2px 0 10px!important}
-#game .gamehead>div:first-child{display:none!important}#game .gamehead .right{display:none!important}#game .gamehead .center{text-align:left!important}
-#game .question{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
-#game .promptline{display:grid!important;grid-template-columns:minmax(0,1fr) 116px!important;gap:14px!important;align-items:end!important}
-#game .challengeNumbers,#game .challengeTarget{background:transparent!important;border:0!important;padding:0!important}
-#game .challengeLabel{font-size:1rem!important;font-weight:900!important;margin:0 0 7px!important}
-#game .problemDigits{gap:8px!important}#game .digit{height:74px!important;border:0!important;border-radius:11px!important;background:#f3f4f6!important;color:#17243a!important;font-size:2.4rem!important;font-weight:950!important;box-shadow:none!important}
-#game .challengeTarget .target{height:74px!important;border-radius:11px!important;background:var(--fm-blue)!important;color:#fff!important;font-size:2.55rem!important;font-weight:950!important;box-shadow:none!important}
-#game #solutionMeta{margin:9px 0 12px!important;border-radius:999px!important;padding:7px 12px!important;font-size:.85rem!important}
-.stableShuffleRow{grid-template-columns:118px 1fr;gap:12px;margin:0 0 16px}.stableReset,.stableShuffle{min-height:54px;border-radius:11px;font-size:1.04rem;font-weight:900}.stableReset{background:#fff;border:1px solid #dfe5ec;color:#25364f}.stableShuffle{background:var(--fm-blue);border:1px solid var(--fm-blue);color:#fff}
-#game .inputwrap{background:#fff!important;border:1px solid #e3e7ed!important;border-radius:14px!important;padding:18px!important;box-shadow:none!important}
-#game .composerShell{border:1.5px solid #cbd5e1!important;border-radius:8px!important;box-shadow:none!important;overflow:hidden!important}
-#game .expr{height:104px!important;min-height:104px!important;font-family:"Cambria Math","Times New Roman",serif!important;font-size:2rem!important;padding:18px!important;color:#17243a!important}
-#game .equationPreview{border-radius:8px!important;box-shadow:none!important}
-#game .referencePad{border:1px solid #e3e7ed!important;border-radius:14px!important;padding:16px!important;background:#fff!important;box-shadow:none!important}
-#game .quick-digit,#game .key{height:62px!important;min-height:62px!important;border-radius:11px!important;background:#fff!important;border:1px solid #e1e5eb!important;box-shadow:0 2px 5px rgba(15,23,42,.05)!important;color:#17243a!important}
-#game .fastSubmitRow .fastSubmitKey{min-height:58px!important;width:100%!important;border-radius:11px!important;background:var(--fm-blue)!important;border-color:var(--fm-blue)!important;color:#fff!important;font-size:1.08rem!important;font-weight:900!important}
-#stableSolutionHost{margin-top:10px}#stableSolutionHost #stableSolutionBtn{display:block;width:100%!important;min-height:52px!important;border-radius:11px!important;background:#fff!important;border:1px solid #dfe5ec!important;color:#25364f!important;font-weight:900!important;box-shadow:none!important;font-size:1rem!important}
-#game .gameActions{display:none!important}
-@media(max-width:620px){.app{padding:0 12px 34px!important}.topbar{margin:0 -12px 18px!important;padding:12px!important}.logo,.headerHomeIcon{width:48px!important;height:48px!important;min-width:48px!important;border-radius:13px!important}.brand h1{font-size:1.35rem!important}.brand small{font-size:.78rem!important}#helpBtn{font-size:.88rem!important;padding:9px 11px!important}#game .promptline{grid-template-columns:minmax(0,1fr) 104px!important;gap:9px!important}#game .digit{height:66px!important;font-size:2.05rem!important}#game .challengeTarget .target{height:66px!important;font-size:2.2rem!important}.stableShuffleRow{grid-template-columns:104px 1fr;gap:9px}.stableReset,.stableShuffle{min-height:50px}#game .inputwrap{padding:12px!important}#game .expr{height:94px!important;min-height:94px!important;font-size:1.65rem!important;padding:13px!important}#game .referencePad{padding:12px!important}#game .quick-digit,#game .key{height:58px!important;min-height:58px!important}}
-</style>
-
-
-
-<style id="competitionTimerVisibilityStyle">
-/* v32: the stable FastMath skin accidentally hid .gamehead .right, which contains the running clock. */
-#game .gamehead{
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr) auto!important;
-  align-items:center!important;
-  column-gap:14px!important;
-}
-#game .gamehead>div:first-child{display:none!important}
-#game .gamehead .center{
-  grid-column:1!important;
-  grid-row:1!important;
-  text-align:left!important;
-  min-width:0!important;
-}
-#game .gamehead .right{
-  display:block!important;
-  grid-column:2!important;
-  grid-row:1!important;
-  justify-self:end!important;
-  align-self:start!important;
-}
-#game .gamehead .right .pill{
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  min-width:108px!important;
-  min-height:46px!important;
-  padding:0 14px!important;
-  border-radius:14px!important;
-  border:1px solid #dfe5ec!important;
-  background:#fff!important;
-  color:#25364f!important;
-  font-size:1rem!important;
-  font-weight:900!important;
-  box-shadow:0 2px 5px rgba(15,23,42,.05)!important;
-  font-variant-numeric:tabular-nums!important;
-}
-#game .gamehead .right .pill.competitionClock{border-color:#cbd8ee!important;color:#244f9b!important}
-#game .gamehead .right .pill.clockWarning{border-color:#f5b942!important;background:#fff8e8!important;color:#b76700!important}
-#game .gamehead .right .pill.clockDanger{border-color:#ef6b6b!important;background:#fff0f0!important;color:#c62828!important}
-/* Keep the FastMath-like compact look: clock is visible, progress strip remains hidden. */
-#game .timerbar{display:none!important}
-@media(max-width:620px){
-  #game .gamehead{column-gap:8px!important}
-  #game .gamehead .right .pill{min-width:92px!important;min-height:40px!important;padding:0 10px!important;border-radius:12px!important;font-size:.92rem!important}
-  #game .gamehead .center b{font-size:.98rem!important}
-  #game #gameRuleText{font-size:.76rem!important;line-height:1.35!important}
-}
-</style>
 
 
 
@@ -852,365 +778,20 @@ body{background:#fff!important;color:var(--fm-ink)!important}
 
 
 
-<style id="v40PersistentSolutionButtonStyle">
-#stableSolutionHost{margin-top:10px!important}
-#stableSolutionBtn{display:block;width:100%!important;min-height:52px!important;border-radius:11px!important;background:#fff!important;border:1px solid #dfe5ec!important;color:#25364f!important;font-weight:900!important;box-shadow:none!important;font-size:1rem!important}
-</style>
-
-
-<style id="v45AttendanceInspiredUI">
-/* =========================================================
-   v45 UI refresh — inspired by the tidy classroom/attendance app
-   Visual-only layer: no game/search/timer logic changed.
-   ========================================================= */
-:root{
-  --ui-bg:#f9fafb;
-  --ui-card:#ffffff;
-  --ui-ink:#1f2937;
-  --ui-muted:#64748b;
-  --ui-line:#e5e7eb;
-  --ui-blue:#3b82f6;
-  --ui-blue-dark:#2563eb;
-  --ui-violet:#8b5cf6;
-  --ui-green:#10b981;
-  --ui-orange:#f59e0b;
-  --ui-red:#ef4444;
-  --ui-shadow:0 8px 24px rgba(15,23,42,.055);
-  --ui-shadow-hover:0 12px 30px rgba(15,23,42,.085);
-}
-html{background:var(--ui-bg)!important}
-body{
-  font-family:'Kanit',system-ui,-apple-system,'Noto Sans Thai','Segoe UI',sans-serif!important;
-  background:var(--ui-bg)!important;
-  color:var(--ui-ink)!important;
-  letter-spacing:.005em;
-}
-button,input,select{font-family:inherit!important}
-.app{max-width:1120px!important;margin:0 auto!important;padding:18px 18px 54px!important}
-
-/* Header */
-.topbar{
-  position:sticky!important;top:0!important;z-index:70!important;
-  margin:0 -2px 22px!important;padding:12px 14px!important;
-  background:rgba(255,255,255,.96)!important;backdrop-filter:blur(14px);
-  border:1px solid #eef0f3!important;border-radius:22px!important;
-  box-shadow:0 4px 18px rgba(15,23,42,.045)!important;
-}
-.brand{gap:12px!important;min-width:0}
-.logo,.headerHomeIcon{
-  width:52px!important;height:52px!important;min-width:52px!important;
-  border-radius:17px!important;border:0!important;
-  background:linear-gradient(135deg,#3b82f6,#06b6d4)!important;color:white!important;
-  box-shadow:0 6px 16px rgba(59,130,246,.20)!important;
-}
-.headerHomeIcon{background:#fff!important;color:#334155!important;border:1px solid #e5e7eb!important;box-shadow:0 3px 10px rgba(15,23,42,.05)!important}
-.brand h1{font-size:1.48rem!important;line-height:1.15!important;font-weight:800!important;color:#1f2937!important;margin:0!important}
-.brand small{display:block!important;margin-top:3px!important;font-size:.86rem!important;color:#6b7280!important;font-weight:400!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#helpBtn,.iconbtn{
-  min-height:44px!important;padding:0 15px!important;border-radius:15px!important;
-  border:1px solid #e5e7eb!important;background:#fff!important;color:#374151!important;
-  font-weight:600!important;box-shadow:0 2px 7px rgba(15,23,42,.04)!important;
-}
-#helpBtn:hover,.iconbtn:hover{background:#f8fafc!important;border-color:#d7dde5!important}
-
-/* Shared cards / controls */
-.card{
-  background:var(--ui-card)!important;border:1px solid #eef0f3!important;
-  border-radius:24px!important;box-shadow:var(--ui-shadow)!important;padding:22px!important;
-}
-.btn{
-  min-height:44px!important;border-radius:14px!important;padding:10px 16px!important;
-  font-weight:600!important;transition:transform .12s ease,box-shadow .15s ease,background .15s ease!important;
-}
-.btn:active{transform:scale(.985)}
-.btn.primary{background:#3b82f6!important;color:#fff!important;box-shadow:0 5px 12px rgba(59,130,246,.18)!important}
-.btn.primary:hover{background:#2563eb!important;box-shadow:0 7px 16px rgba(37,99,235,.20)!important}
-.btn.ghost{background:#f8fafc!important;color:#475569!important;border:1px solid #e5e7eb!important}
-.btn.good{background:#ecfdf5!important;color:#047857!important;border:1px solid #bbf7d0!important}
-.btn.danger{background:#fff1f2!important;color:#be123c!important;border:1px solid #fecdd3!important}
-.actions{gap:10px!important;margin-top:18px!important}
-.field label{font-size:.88rem!important;font-weight:600!important;color:#374151!important;margin-bottom:7px!important}
-.field select,.field input[type=number],.field input[type=text]{
-  min-height:48px!important;border:1px solid #e5e7eb!important;border-radius:15px!important;
-  padding:11px 13px!important;background:#fff!important;color:#1f2937!important;
-  outline:none!important;box-shadow:0 1px 2px rgba(15,23,42,.02)!important;
-}
-.field select:focus,.field input:focus{border-color:#60a5fa!important;box-shadow:0 0 0 3px rgba(59,130,246,.12)!important}
-.staticinfo{
-  border:1px solid #e0e7ff!important;border-radius:16px!important;background:#f5f7ff!important;
-  color:#4338ca!important;padding:13px 14px!important;line-height:1.55!important;
-}
-.mini{color:#64748b!important}
-
-/* Home: same calm card hierarchy as attendance dashboard */
-#home .hero{
-  position:relative!important;padding:24px 26px!important;border-radius:24px!important;
-  border:1px solid #dbeafe!important;
-  background:linear-gradient(135deg,#eff6ff 0%,#ffffff 58%,#f5f3ff 100%)!important;
-  color:#1f2937!important;box-shadow:var(--ui-shadow)!important;overflow:hidden!important;
-}
-#home .hero:before{content:'✦';position:absolute;right:28px;top:18px;font-size:3.2rem;color:#dbeafe;line-height:1}
-#home .hero:after{display:none!important}
-#home .hero h2{font-size:1.7rem!important;font-weight:800!important;color:#1f2937!important;margin:0 0 7px!important}
-#home .hero p{font-size:.96rem!important;line-height:1.65!important;color:#64748b!important;max-width:780px!important}
-#home .modegrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin-top:16px!important}
-#home .mode{
-  position:relative!important;display:flex!important;flex-direction:column!important;min-height:205px!important;
-  padding:20px!important;overflow:hidden!important;border-radius:22px!important;
-  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important;
-}
-#home .mode:before{content:'';position:absolute;left:0;right:0;top:0;height:5px;background:#3b82f6}
-#home .mode:nth-child(2):before{background:#8b5cf6}#home .mode:nth-child(3):before{background:#10b981}#home .mode:nth-child(4):before{background:#f59e0b}#home .mode:nth-child(5):before{background:#06b6d4}
-#home .mode:hover{transform:translateY(-2px)!important;box-shadow:var(--ui-shadow-hover)!important;border-color:#e0e7ef!important}
-#home .mode .emoji{
-  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
-  background:#eff6ff;font-size:1.55rem!important;margin-bottom:10px;
-}
-#home .mode:nth-child(2) .emoji{background:#f5f3ff}#home .mode:nth-child(3) .emoji{background:#ecfdf5}#home .mode:nth-child(4) .emoji{background:#fff7ed}#home .mode:nth-child(5) .emoji{background:#ecfeff}
-#home .mode h3{font-size:1.08rem!important;font-weight:700!important;color:#1f2937!important;margin:0 0 5px!important}
-#home .mode p{font-size:.88rem!important;line-height:1.55!important;color:#6b7280!important;margin:0 0 14px!important;flex:1}
-#home .mode .btn{width:100%!important;margin-top:auto!important}
-#home .finderMode{grid-column:1/-1!important;min-height:170px!important}
-#home .sectiontitle{font-size:1rem!important;font-weight:700!important;color:#374151!important;margin:22px 3px 10px!important}
-#home .rules{font-size:.88rem!important;line-height:1.65!important;background:#fff!important;color:#64748b!important;border-radius:20px!important}
-
-/* Setup / finder / summaries */
-#setup,#specialSetup,#finder,#summary,#breakScreen{max-width:980px!important;margin:0 auto!important}
-#setup>.card,#specialSetup>.card,#finder>.card:first-child,#summary>.card,#breakScreen>.card{padding:24px!important}
-#setup h2,#specialSetup h2,#finder h2,#summary h2{font-size:1.35rem!important;font-weight:800!important;color:#1f2937!important}
-.formgrid{gap:14px!important}
-#setup .field,#specialSetup .field,#finder .field{min-width:0}
-#setup .actions,#specialSetup .actions,#finder .actions{padding-top:4px!important;border-top:1px solid #f1f5f9!important;margin-top:20px!important}
-#setup .actions .btn,#specialSetup .actions .btn{min-width:120px!important}
-#finder .finderIntro{color:#64748b!important;font-size:.91rem!important;line-height:1.6!important}
-#finder .finderBox{border:1px solid #e5e7eb!important;border-radius:16px!important;background:#f9fafb!important;min-height:76px!important}
-#finder .finderBox.active{background:#fff!important;border-color:#60a5fa!important;box-shadow:0 0 0 3px rgba(59,130,246,.11)!important}
-#finder .finderSlot{border-radius:12px!important;background:#fff!important;border-color:#e5e7eb!important;box-shadow:0 1px 2px rgba(15,23,42,.03)!important}
-#finder .finderKeypad{background:#f9fafb!important;border:1px solid #eef0f3!important;border-radius:18px!important;padding:12px!important}
-#finder .finderResult{margin-top:14px!important}
-.finderStatus{background:#eff6ff!important;color:#2563eb!important;border:1px solid #dbeafe!important}
-
-/* Game layout: each task area reads as one attendance-style card */
-#game{max-width:980px!important;margin:0 auto!important}
-#game .gamehead{
-  display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:12px!important;
-  background:#fff!important;border:1px solid #eef0f3!important;border-radius:20px!important;
-  padding:14px 16px!important;margin:0 0 12px!important;box-shadow:var(--ui-shadow)!important;
-}
-#game .gamehead .center b{font-size:1rem!important;font-weight:700!important;color:#1f2937!important}
-#game #qLabel,#game #gameRuleText{color:#64748b!important}
-#game .gamehead .right .pill{
-  min-width:104px!important;min-height:44px!important;border-radius:14px!important;background:#f8fafc!important;
-  border:1px solid #e5e7eb!important;color:#334155!important;box-shadow:none!important;font-weight:700!important;
-}
-#game .question{
-  background:#fff!important;border:1px solid #eef0f3!important;border-radius:24px!important;
-  padding:18px!important;box-shadow:var(--ui-shadow)!important;
-}
-#game .promptline{
-  display:grid!important;grid-template-columns:minmax(0,1fr) 126px!important;gap:14px!important;
-  align-items:end!important;margin:0 0 12px!important;
-}
-#game .challengeLabel{font-size:.88rem!important;font-weight:600!important;color:#374151!important;margin-bottom:7px!important}
-#game .problemDigits{gap:8px!important}
-#game .digit{
-  height:70px!important;border-radius:16px!important;border:1px solid #eef0f3!important;
-  background:#f9fafb!important;color:#1f2937!important;font-size:2rem!important;font-weight:800!important;
-  box-shadow:0 2px 5px rgba(15,23,42,.035)!important;
-}
-#game .digit:hover{background:#eff6ff!important;border-color:#dbeafe!important}
-#game .challengeTarget .target{
-  height:70px!important;border-radius:16px!important;background:#3b82f6!important;color:#fff!important;
-  font-size:2.15rem!important;font-weight:800!important;box-shadow:0 6px 14px rgba(59,130,246,.17)!important;
-}
-#game #solutionMeta{
-  margin:5px 0 12px!important;padding:7px 11px!important;border-radius:12px!important;
-  width:max-content!important;max-width:100%!important;background:#f5f3ff!important;color:#6d28d9!important;border:1px solid #ede9fe!important;
-}
-.stableShuffleRow{grid-template-columns:120px minmax(0,1fr)!important;gap:10px!important;margin:0 0 12px!important}
-.stableReset,.stableShuffle{
-  min-height:48px!important;border-radius:14px!important;font-size:.95rem!important;font-weight:600!important;
-  box-shadow:0 2px 6px rgba(15,23,42,.035)!important;
-}
-.stableReset{background:#f8fafc!important;border:1px solid #e5e7eb!important;color:#475569!important}
-.stableShuffle{background:#3b82f6!important;border:1px solid #3b82f6!important;color:#fff!important}
-
-#game .inputwrap{
-  margin-top:0!important;background:#f9fafb!important;border:1px solid #eef0f3!important;
-  border-radius:20px!important;padding:14px!important;box-shadow:none!important;
-}
-#game .composerShell{
-  border:1px solid #dbe2ea!important;border-radius:15px!important;background:#fff!important;box-shadow:0 1px 2px rgba(15,23,42,.025)!important;
-}
-#game .composerShell:focus-within{border-color:#60a5fa!important;box-shadow:0 0 0 3px rgba(59,130,246,.10)!important}
-#game .expr{
-  height:98px!important;min-height:98px!important;padding:15px 16px!important;border-radius:15px!important;
-  background:#fff!important;color:#1f2937!important;font-size:1.65rem!important;
-}
-#game .equationFooter{margin-top:9px!important}
-#game .equationFooterTools{font-size:.76rem!important;color:#64748b!important}
-#game .equationPreview{border-radius:14px!important;border-width:1px!important;box-shadow:0 2px 6px rgba(15,23,42,.04)!important}
-
-#game .referencePad{
-  margin-top:12px!important;background:#fff!important;border:1px solid #e5e7eb!important;
-  border-radius:18px!important;padding:12px!important;box-shadow:0 2px 8px rgba(15,23,42,.035)!important;
-}
-#game .refDigits{gap:8px!important;margin-bottom:9px!important}
-#game .quick-digit,#game .key{
-  min-height:54px!important;height:54px!important;border-radius:13px!important;
-  border:1px solid #e5e7eb!important;background:#fff!important;color:#1f2937!important;
-  box-shadow:0 2px 5px rgba(15,23,42,.04)!important;font-weight:700!important;
-}
-#game .quick-digit:hover,#game .key:hover{border-color:#cbd5e1!important;background:#f8fafc!important}
-#game .key.op{background:#f8fafc!important;color:#334155!important}
-#game .key.fn{background:#ecfeff!important;color:#0f766e!important;border-color:#cffafe!important}
-#game .key.edit{background:#fff7ed!important;color:#9a3412!important;border-color:#ffedd5!important}
-#game .quick-result-display{
-  height:54px!important;min-height:54px!important;border-radius:13px!important;
-  background:#3b82f6!important;border-color:#3b82f6!important;box-shadow:0 4px 10px rgba(59,130,246,.14)!important;
-}
-#game .quick-result-value{font-size:1.65rem!important;font-weight:800!important}
-#game .fastNavRow .key,#game .fastSubmitRow .key{font-weight:600!important}
-#game .fastSubmitRow .fastSubmitKey{
-  min-height:52px!important;border-radius:14px!important;background:#3b82f6!important;border-color:#3b82f6!important;
-  box-shadow:0 5px 12px rgba(59,130,246,.14)!important;font-weight:700!important;
-}
-#stableSolutionHost{margin-top:9px!important}
-#stableSolutionBtn{
-  min-height:48px!important;border-radius:14px!important;background:#fff!important;border:1px solid #e5e7eb!important;
-  color:#475569!important;font-weight:600!important;box-shadow:0 2px 6px rgba(15,23,42,.035)!important;
-}
-#game .feedback,#game .solution{
-  border-radius:18px!important;margin-top:12px!important;box-shadow:none!important;
-}
-#game .solution{border:1px solid #e5e7eb!important;background:#fff!important;padding:16px!important}
-#game .solutionhead{padding-bottom:8px!important;border-bottom:1px solid #f1f5f9!important}
-#game .solutioncount{background:#f5f3ff!important;color:#7c3aed!important}
-
-/* Summary */
-.summarygrid{gap:10px!important}
-.stat{border-radius:18px!important;border:1px solid #eef0f3!important;box-shadow:0 3px 10px rgba(15,23,42,.035)!important}
-.reviewitem{border-radius:18px!important;border-color:#eef0f3!important;box-shadow:0 3px 10px rgba(15,23,42,.03)!important}
-
-/* Dialogs, toast */
-dialog{border-radius:26px!important;box-shadow:0 24px 70px rgba(15,23,42,.22)!important}
-dialog::backdrop{background:rgba(15,23,42,.35)!important;backdrop-filter:blur(3px)}
-.dialogbody{padding:24px!important}
-.toast{border-radius:16px!important;box-shadow:0 10px 30px rgba(15,23,42,.18)!important}
-
-@media(max-width:760px){
-  .app{padding:10px 10px 40px!important}
-  .topbar{margin:0 0 14px!important;padding:10px 11px!important;border-radius:18px!important}
-  .logo,.headerHomeIcon{width:46px!important;height:46px!important;min-width:46px!important;border-radius:14px!important}
-  .brand h1{font-size:1.28rem!important}.brand small{font-size:.76rem!important}
-  #helpBtn{min-height:40px!important;padding:0 11px!important;font-size:.82rem!important;border-radius:13px!important}
-  #home .hero{padding:19px!important;border-radius:20px!important}
-  #home .hero h2{font-size:1.35rem!important}
-  #home .modegrid{grid-template-columns:1fr!important;gap:10px!important}
-  #home .finderMode{grid-column:auto!important}
-  #home .mode{min-height:0!important;padding:17px!important;border-radius:19px!important}
-  .card{padding:17px!important;border-radius:20px!important}
-  .formgrid{grid-template-columns:1fr!important;gap:12px!important}
-  #game .gamehead{border-radius:18px!important;padding:11px 12px!important}
-  #game .question{padding:12px!important;border-radius:20px!important}
-  #game .promptline{grid-template-columns:minmax(0,1fr) 102px!important;gap:8px!important}
-  #game .digit{height:58px!important;border-radius:13px!important;font-size:1.6rem!important}
-  #game .challengeTarget .target{height:58px!important;border-radius:13px!important;font-size:1.75rem!important}
-  #game .inputwrap{padding:10px!important;border-radius:17px!important}
-  #game .expr{height:84px!important;min-height:84px!important;font-size:1.35rem!important;padding:12px!important}
-  #game .referencePad{padding:9px!important;border-radius:16px!important}
-  #game .quick-digit,#game .key,#game .quick-result-display{height:49px!important;min-height:49px!important;border-radius:11px!important}
-  #game .quick-result-value{font-size:1.45rem!important}
-  .stableShuffleRow{grid-template-columns:102px minmax(0,1fr)!important;gap:8px!important}
-  .stableReset,.stableShuffle{min-height:46px!important;border-radius:12px!important}
-}
-@media(max-width:430px){
-  .app{padding:8px 8px 34px!important}
-  .topbar{padding:9px!important;gap:8px!important}
-  .brand{gap:8px!important}.brand h1{font-size:1.13rem!important}.brand small{max-width:190px!important}
-  #helpBtn{padding:0 9px!important;font-size:.74rem!important}
-  #game .promptline{grid-template-columns:minmax(0,1fr) 88px!important}
-  #game .digit{height:52px!important;font-size:1.42rem!important}
-  #game .challengeTarget .target{height:52px!important;font-size:1.55rem!important}
-  #game .problemDigits{gap:5px!important}
-  #game .refOps,#game .refFuncs{grid-template-columns:repeat(4,minmax(0,1fr))!important}
-}
-</style>
-
-
-
 <!-- v46: mobile target fitting + show live timer in equation footer -->
-<style id="v46MobileTargetAndFooterClockStyle">
-/* The small blue target duplicated beside the number keys must always show the full target. */
-#game .quick-result-display{
-  overflow:hidden!important;
-  padding:0 5px!important;
-}
-#game .quick-result-value{
-  display:block!important;
-  width:100%!important;
-  max-width:100%!important;
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  text-overflow:clip!important;
-  text-align:center!important;
-  line-height:1!important;
-}
-#game .challengeTarget .target{
-  overflow:hidden!important;
-  padding-left:5px!important;
-  padding-right:5px!important;
-  white-space:nowrap!important;
-  text-overflow:clip!important;
-}
 
-/* Replace the long cursor instruction with the live clock. */
-#game .equationFooterTools{
-  min-height:42px!important;
-  display:flex!important;
-  align-items:center!important;
-}
-#game .equationFooterTools span{
-  font-size:0!important;
-}
-#game .equationFooterTools span:after{
-  content:none!important;
-  display:none!important;
-}
-#game .equationLocalClock{
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:6px!important;
-  min-width:96px!important;
-  min-height:38px!important;
-  padding:0 12px!important;
-  border-radius:12px!important;
-  border:1px solid #e5e7eb!important;
-  background:#f8fafc!important;
-  color:#334155!important;
-  font-size:.95rem!important;
-  font-weight:700!important;
-  white-space:nowrap!important;
-}
-#game .equationLocalClock.clockWarning{
-  border-color:#f5b942!important;background:#fff8e8!important;color:#b76700!important;
-}
-#game .equationLocalClock.clockDanger{
-  border-color:#ef6b6b!important;background:#fff0f0!important;color:#c62828!important;
-}
 
-@media(max-width:760px){
-  #game .challengeTarget .target{font-size:1.48rem!important;}
-  #game .quick-result-value{font-size:1.28rem!important;}
-  #game .equationLocalClock{min-width:88px!important;min-height:36px!important;font-size:.9rem!important;padding:0 10px!important;}
-}
-@media(max-width:430px){
-  #game .challengeTarget .target{font-size:1.34rem!important;}
-  #game .quick-result-value{font-size:1.12rem!important;}
-  #game .equationLocalClock{min-width:82px!important;min-height:34px!important;font-size:.86rem!important;padding:0 9px!important;}
-}
-</style>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
