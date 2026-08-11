@@ -64,7 +64,7 @@ button{cursor:pointer}
 .feedback{margin-top:14px;border-radius:15px;padding:12px 14px;display:none;line-height:1.55;border:2px solid transparent}.feedback.show{display:block}.feedback.good{background:#dcfce7;color:#166534;border-color:#22c55e}.feedback.bad{background:#fee2e2;color:#991b1b;border-color:#ef4444}.feedback.info{background:#eff6ff;color:#1e40af;border-color:#60a5fa}.feedback .feedback-title{font-size:1.05rem;font-weight:800;margin-bottom:4px}.feedback .feedback-body{font-size:.98rem}
 .solution{display:none;margin-top:14px;background:#fafafa;border:1px dashed #cbd5e1;border-radius:15px;padding:14px}.solution.show{display:block}.solution code{font-size:1.05rem;word-break:break-word}
 .solutionmeta{margin:12px auto 0;width:max-content;max-width:100%;background:#f5f3ff;color:#5b21b6;border:1px solid #ddd6fe;border-radius:999px;padding:7px 12px;font-size:.9rem;font-weight:850;text-align:center}
-.solutionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.solutioncount{background:#ede9fe;color:#5b21b6;border-radius:999px;padding:5px 9px;font-size:.82rem;font-weight:850}.solutionnav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.solutionnav .btn{padding:9px 12px}.solutionnote{margin-top:9px;padding-top:9px;border-top:1px solid #e2e8f0}
+.solutionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.solutioncount{background:#ede9fe;color:#5b21b6;border-radius:999px;padding:5px 9px;font-size:.82rem;font-weight:850}.solutionnav{display:flex;gap:8px;flex-wrap:nowrap;margin-top:12px;width:100%}.solutionnav .btn{flex:1 1 0;min-width:0;padding:9px 6px;white-space:nowrap;text-align:center}@media(max-width:520px){.solutionnav{gap:6px}.solutionnav .btn{padding:9px 3px;font-size:.86rem;letter-spacing:-.2px}}.solutionnote{margin-top:9px;padding-top:9px;border-top:1px solid #e2e8f0}
 .math-display{font-family:"Noto Sans Thai","Tahoma",system-ui,sans-serif;font-size:1.15rem;line-height:2.65;word-break:break-word}.math-display sup{font-size:.72em;line-height:0;vertical-align:super;margin-left:1px}.math-step{font-family:"Noto Sans Thai","Tahoma",system-ui,sans-serif;line-height:2.55}.math-step sup{font-size:.72em;line-height:0;vertical-align:super}
 math.sum-math{display:inline-block;font-size:1.08em;vertical-align:-.18em;margin:0 .08em;line-height:normal;white-space:nowrap;overflow:visible}math.sum-math munder,math.sum-math munderover{overflow:visible}
 .mini{font-size:.86rem;color:var(--muted)}.warn{color:var(--warn)}
@@ -300,6 +300,23 @@ kbd{border:1px solid #cbd5e1;background:#f8fafc;border-bottom-width:2px;border-r
 #finder .formgrid{margin-bottom:10px;}
 #finder .finderBox{min-height:72px;}
 #finder .card > h2{margin-bottom:10px;}
+
+
+/* v67: Game24/Random difficulty option */
+.v67-check-row{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 2px;cursor:pointer;font-weight:600;color:#1e293b}
+.v67-check-row input{width:20px;height:20px;accent-color:#0f766e;flex:0 0 auto}
+#roundLabel .v67-diff{color:#0f766e;font-weight:700}
+
+
+/* v69: choose multiple difficulty levels for Game24 / Random practice */
+#specialDifficultyLevelsField{display:none}
+.v69-diff-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;width:100%}
+.v69-diff-choice{position:relative;display:grid;place-items:center;height:54px;padding:0;margin:0;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#334155;font-weight:700;cursor:pointer;user-select:none;overflow:hidden;box-sizing:border-box;transition:.15s ease}
+.v69-diff-choice input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.v69-diff-choice>span{display:grid;place-items:center;width:100%;height:100%;margin:0;padding:0;text-align:center;font:700 18px/1 "Prompt",sans-serif}
+.v69-diff-choice:has(input:checked),.v69-diff-choice.selected{border-color:#0f766e;background:#0f766e;color:#fff;box-shadow:0 2px 6px rgba(15,118,110,.16)}
+.v69-diff-choice:active{transform:scale(.98)}
+@media(max-width:420px){.v69-diff-grid{gap:7px}.v69-diff-choice{height:48px;border-radius:10px}.v69-diff-choice>span{font-size:17px}}
 
 </style>
 
@@ -637,6 +654,22 @@ body{background:#f6f7f9!important;}
 <label>เวลาต่อข้อ (วินาที)</label>
 <input id="practiceTime" max="300" min="10" type="number" value="30"/>
 </div>
+<div class="field practiceOnly" id="specialDifficultyField" style="display:none">
+<label class="v67-check-row" for="showSpecialDifficulty">
+<input id="showSpecialDifficulty" type="checkbox" checked/>
+<span>แสดงระดับความยากง่าย</span>
+</label>
+</div>
+<div class="field practiceOnly" id="specialDifficultyLevelsField" style="display:none">
+<label>เลือกระดับความยาก</label>
+<div class="v69-diff-grid" id="specialDifficultyLevels">
+<label class="v69-diff-choice"><input type="checkbox" value="1" checked/><span>1</span></label>
+<label class="v69-diff-choice"><input type="checkbox" value="2" checked/><span>2</span></label>
+<label class="v69-diff-choice"><input type="checkbox" value="3" checked/><span>3</span></label>
+<label class="v69-diff-choice"><input type="checkbox" value="4" checked/><span>4</span></label>
+<label class="v69-diff-choice"><input type="checkbox" value="5" checked/><span>5</span></label>
+</div>
+</div>
 <div class="field">
 <label>กติกาที่ใช้</label>
 <div class="staticinfo" id="levelRuleBox"></div>
@@ -779,6 +812,17 @@ body{background:#f6f7f9!important;}
 
 
 <!-- v46: mobile target fitting + show live timer in equation footer -->
+
+
+
+
+
+
+
+
+
+
+
 
 
 
