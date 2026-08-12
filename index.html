@@ -481,6 +481,46 @@ body{background:#f6f7f9!important;}
   #home .home-chevron{font-size:25px;}
 }
 </style>
+
+<style id="v85ClassroomMode">
+/* ===== classroom fullscreen presentation mode ===== */
+#classroom.active{display:block!important;position:fixed;inset:0;z-index:9999;background:#0f766e;overflow:auto;padding:0!important}
+#classroom .classroom-shell{min-height:100vh;padding:16px;background:#0f766e}
+#classroom .classroom-layout{min-height:calc(100vh - 32px);display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:16px}
+#classroom .classroom-stage{background:#fff;border-radius:8px;padding:22px 26px 18px;display:flex;flex-direction:column;min-width:0;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+#classroom .classroom-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+#classroom .classroom-tools{font-size:clamp(16px,1.6vw,25px);font-weight:800;white-space:nowrap;color:#0f172a}.classroom-tools span{font-weight:800}.classroom-tools b{font-size:1.18em;letter-spacing:.06em}
+#classroom .classroom-toolbar-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+#classroom .classroom-toolbar select,#classroom .classroom-soft,#classroom .classroom-icon-btn{height:44px;border:1px solid #e2e8f0;border-radius:10px;background:#fff;color:#1e293b;font-weight:700;padding:0 12px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+#classroom .classroom-soft{background:#f8fafc}.classroom-icon-btn{width:44px;padding:0;font-size:20px}
+#classroom .classroom-digits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:4px}
+#classroom .classroom-digits[data-count="5"]{grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+#classroom .classroom-digit{height:clamp(150px,27vh,265px);display:grid;place-items:center;border:2px solid #e2e8f0;border-radius:8px;background:#fff;color:#06152d;font-family:"Changa",system-ui,sans-serif;font-size:clamp(70px,11vw,150px);font-weight:850;line-height:1;box-shadow:0 1px 2px rgba(15,23,42,.03)}
+#classroom .classroom-result-label{font-size:clamp(28px,3vw,46px);font-weight:850;color:#0f172a;margin:24px 0 12px}
+#classroom .classroom-target{min-height:clamp(150px,25vh,230px);display:grid;place-items:center;background:#f0fdfa;color:#0f766e;font-family:"Changa",system-ui,sans-serif;font-size:clamp(92px,14vw,190px);font-weight:850;line-height:1}
+#classroom .classroom-target.answer-reveal{padding:12px 28px;font-family:"Noto Sans Thai","Prompt",system-ui,sans-serif;font-size:var(--classroom-answer-size,clamp(44px,5.2vw,96px))!important;font-weight:800;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:clip;letter-spacing:0;display:flex;align-items:center;justify-content:center}
+#classroom .classroom-wordmark{margin-top:auto;padding-top:18px;text-align:center;font-size:clamp(28px,4.4vw,64px);font-weight:900;letter-spacing:.04em;color:#0f766e}
+#classroom .classroom-side{display:grid;grid-template-rows:auto minmax(260px,1fr) auto;gap:16px}
+#classroom .classroom-side-card{background:#fff;border-radius:8px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+#classroom .classroom-side-title{font-size:24px;font-weight:800;color:#64748b;margin-bottom:10px}
+#classroom .classroom-q-control{display:grid;grid-template-columns:38px 1fr 38px;align-items:center;width:100%;gap:10px}.classroom-q-control button{width:34px;height:34px;border:1px solid #e2e8f0;border-radius:9px;background:#fff;font-size:20px;color:#475569}.classroom-q-control strong{font-size:78px;color:#0f766e;line-height:1}
+#classroom .classroom-time-card strong{font-size:clamp(86px,9vw,135px);line-height:1;color:#ff9629;transition:color .15s}.classroom-time-card strong.warn{color:#f59e0b}.classroom-time-card strong.danger{color:#ef1d24}.classroom-seconds{font-size:26px;font-weight:700;color:#64748b;margin-top:14px}
+#classroom .classroom-actions-card{gap:10px}.classroom-shuffle,.classroom-correct,.classroom-wrong{width:100%;border:0;border-radius:10px;padding:14px 12px;font-size:20px;font-weight:850}.classroom-shuffle{background:#0f766e;color:#fff}.classroom-judge-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}.classroom-correct{background:#dcfce7;color:#166534}.classroom-wrong{background:#fee2e2;color:#991b1b}.classroom-shortcuts{font-size:11px;color:#94a3b8}
+#classroom .classroom-digit.slot-pulse,#classroom .classroom-target.slot-pulse{filter:blur(1.2px);opacity:.78;transform:scale(.985)}
+.classroom-settings-body{font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif}
+@media(max-width:900px){
+  #classroom .classroom-shell{padding:8px}#classroom .classroom-layout{grid-template-columns:1fr;min-height:auto;gap:8px}
+  #classroom .classroom-stage{padding:14px;border-radius:0}#classroom .classroom-side{grid-template-columns:1fr 1fr 1.4fr;grid-template-rows:none;gap:8px}
+  #classroom .classroom-side-card{padding:10px;min-height:120px}.classroom-side-title{font-size:16px!important}.classroom-q-control strong{font-size:52px!important}.classroom-time-card strong{font-size:62px!important}.classroom-seconds{font-size:16px!important;margin-top:5px!important}
+  #classroom .classroom-toolbar{margin-bottom:12px}#classroom .classroom-toolbar-actions{width:100%;justify-content:flex-start}#classroom .classroom-toolbar select{flex:1 1 130px;min-width:0}.classroom-soft{display:none}
+  #classroom .classroom-digits{gap:7px!important}.classroom-digit{height:130px!important;font-size:clamp(52px,16vw,95px)!important}.classroom-target{min-height:120px!important;font-size:clamp(72px,22vw,125px)!important}.classroom-result-label{font-size:28px!important;margin:14px 0 7px!important}.classroom-wordmark{font-size:29px!important}
+}
+@media(max-width:560px){
+  #classroom .classroom-shell{padding:0}.classroom-tools{font-size:14px!important;white-space:normal!important}.classroom-toolbar-actions{gap:5px!important}.classroom-toolbar select{font-size:12px;height:40px!important;padding:0 6px!important}.classroom-icon-btn{height:40px!important;width:40px!important}
+  #classroom .classroom-digit{height:100px!important}.classroom-target{min-height:100px!important}.classroom-side{grid-template-columns:1fr 1fr!important}.classroom-actions-card{grid-column:1/-1}.classroom-shortcuts{display:none}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -518,6 +558,17 @@ body{background:#f6f7f9!important;}
         <span class="home-chevron" aria-hidden="true">›</span>
       </button>
 
+      <button class="home-mode-card" type="button" onclick="openClassroomMode()">
+        <span class="home-mode-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/><rect x="7" y="7" width="10" height="10" rx="2"/></svg>
+        </span>
+        <span class="home-mode-copy">
+          <strong>เต็มจอห้องเรียน</strong>
+          <small>แสดงโจทย์ขนาดใหญ่สำหรับแข่งขันตอบในชั้นเรียน</small>
+        </span>
+        <span class="home-chevron" aria-hidden="true">›</span>
+      </button>
+
       <button class="home-mode-card" type="button" onclick="openFinder()">
         <span class="home-mode-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/><path d="M8.5 11h5M11 8.5v5"/></svg>
@@ -531,6 +582,61 @@ body{background:#f6f7f9!important;}
     </div>
   </div>
 </section>
+<section class="screen" id="classroom">
+  <div class="classroom-shell">
+    <div class="classroom-layout">
+      <main class="classroom-stage">
+        <div class="classroom-toolbar">
+          <div class="classroom-tools"><span>เครื่องหมายที่ใช้ได้:</span> <b id="classroomOps">+ − × ÷</b></div>
+          <div class="classroom-toolbar-actions">
+            <button class="classroom-soft" type="button" onclick="goHome()">กลับหน้าหลัก</button>
+            <select id="classroomLevel" aria-label="ระดับการแข่งขัน">
+              <option value="basic">พื้นฐาน</option>
+              <option value="p13">ป.1–3</option>
+              <option value="p46">ป.4–6</option>
+              <option selected value="m13">ม.1–3</option>
+              <option value="m46">ม.4–6</option>
+              <option value="game24">เกม 24</option>
+            </select>
+            <select id="classroomFormat" aria-label="จำนวนตัวเลข">
+              <option selected value="4">4 ตัวเลข</option>
+              <option value="5">5 ตัวเลข</option>
+            </select>
+            <button class="classroom-icon-btn" id="classroomSettingsBtn" type="button" title="ตั้งค่า">⚙</button>
+            <button class="classroom-icon-btn" id="classroomFullscreenBtn" type="button" title="เต็มจอ">⛶</button>
+          </div>
+        </div>
+
+        <div class="classroom-digits" id="classroomDigits" data-count="4">
+          <div class="classroom-digit">—</div><div class="classroom-digit">—</div><div class="classroom-digit">—</div><div class="classroom-digit">—</div>
+        </div>
+        <div class="classroom-result-label">ผลลัพธ์:</div>
+        <div class="classroom-target" id="classroomTarget">——</div>
+        <div class="classroom-wordmark">เกมคิดเลขเร็ว</div>
+      </main>
+
+      <aside class="classroom-side">
+        <div class="classroom-side-card classroom-q-card">
+          <div class="classroom-side-title">ข้อที่</div>
+          <div class="classroom-q-control"><button id="classroomQMinus" type="button">−</button><strong id="classroomQNo">1</strong><button id="classroomQPlus" type="button">+</button></div>
+        </div>
+        <div class="classroom-side-card classroom-time-card">
+          <div class="classroom-side-title">เหลือเวลาอีก</div>
+          <strong id="classroomTime">30</strong>
+          <div class="classroom-seconds">วินาที</div>
+        </div>
+        <div class="classroom-side-card classroom-actions-card">
+          <button class="classroom-shuffle" id="classroomShuffle" type="button">▶ สุ่มโจทย์</button>
+          <div class="classroom-judge-row">
+            <button class="classroom-correct" id="classroomCorrect" type="button">✓ ถูก</button>
+            <button class="classroom-wrong" id="classroomWrong" type="button">✕ ผิด</button>
+          </div>
+          <div class="classroom-shortcuts">Space = สุ่ม • C = ถูก • X = ผิด</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
 <section class="screen" id="finder">
 <div class="card">
 <h2 style="margin-top:0">🔎 ระบบหาคำตอบ / วิธีคิด</h2>
@@ -541,18 +647,18 @@ body{background:#f6f7f9!important;}
 <select id="finderLevel">
 <option selected="" value="all">รวมทุกระดับ</option>
 <option value="random">พื้นฐาน</option>
+<option value="game24">เกม 24</option>
 <option value="p13">ประถมศึกษาตอนต้น (ป.1–3)</option>
 <option value="p46">ประถมศึกษาตอนปลาย (ป.4–6)</option>
 <option value="m13">มัธยมศึกษาตอนต้น (ม.1–3)</option>
 <option value="m46">มัธยมศึกษาตอนปลาย (ม.4–6)</option>
-<option value="game24">เกม 24</option>
 </select>
 </div>
 <div class="field">
 <label>จำนวนเลขในโจทย์</label>
 <select id="finderDigitCount">
-<option value="4">4 ตัวเลข</option>
-<option selected="" value="5">5 ตัวเลข</option>
+<option selected="" value="4">4 ตัวเลข</option>
+<option value="5">5 ตัวเลข</option>
 </select>
 </div>
 </div>
@@ -764,13 +870,24 @@ body{background:#f6f7f9!important;}
 </section>
 </div>
 <div class="toast" id="toast"></div>
+<dialog id="classroomSettings">
+  <div class="dialogbody classroom-settings-body">
+    <button class="iconbtn closex" type="button" onclick="document.getElementById('classroomSettings').close()">✕</button>
+    <h3>ตั้งค่าโหมดเต็มจอ</h3>
+    <div class="formgrid">
+      <div class="field"><label>เวลาต่อข้อ (วินาที)</label><input id="classroomSeconds" type="number" min="5" max="300" value="30"/></div>
+      <div class="field"><label>เสียงเอฟเฟกต์</label><label class="check"><input id="classroomSound" type="checkbox" checked/> เปิดเสียงสุ่ม / ถูก / ผิด</label></div>
+    </div>
+    <div class="actions"><button class="btn ghost" type="button" onclick="document.getElementById('classroomSettings').close()">ปิด</button><button class="btn primary" id="classroomApplySettings" type="button">บันทึก</button></div>
+  </div>
+</dialog>
 <dialog id="help">
 <div class="dialogbody">
 <button class="iconbtn closex" onclick="document.getElementById('help').close()">✕</button>
 <h3>กติกาและรูปแบบการพิมพ์</h3>
 <div class="rules">
 <b>การแข่งขัน:</b> รอบ 1 จำนวน 30 ข้อ ข้อละ 30 วินาที ใช้เลข 4 ตัว เป้าหมาย 2 หลัก; รอบ 2 จำนวน 20 ข้อ ข้อละ 30 วินาที ใช้เลข 5 ตัว เป้าหมาย 3 หลัก<br/><br/>
-<b>เกม 24 / Random:</b> เลือกเลข 4 หรือ 5 ตัวได้ ใช้เฉพาะ + − × ÷ และวงเล็บ โดยต้องใช้เลขทุกตัวให้ครบ เกม 24 กำหนดเป้าหมายเป็น 24 ส่วน Random จะสุ่มเป้าหมายที่มีวิธีทำแน่นอน<br/><br/>
+<b>เกม 24:</b> ใช้เลข 4 ตัว เป้าหมาย 24 ใช้เฉพาะ + − × ÷ และวงเล็บ โดยต้องใช้เลขทุกตัวให้ครบ<br/><b>พื้นฐาน:</b> ใช้เฉพาะ + − × ÷ และวงเล็บ ตามรูปแบบ 4 หรือ 5 ตัวเลข<br/><br/>
 <b>กติกาตามระดับ:</b> ระบบจะกำหนดเครื่องมือที่อนุญาตให้อัตโนมัติเมื่อเลือกระดับการแข่งขัน — ป.1–3 ใช้ + − × ÷ และยกกำลัง; ป.4–6 เพิ่มรากอันดับที่ n; ม.1–6 เพิ่มแฟคทอเรียลและซิกมา<br/><br/>
 <b>ใช้เลข:</b> ต้องใช้เลขที่โจทย์ให้มาครบทุกตัว และแต่ละตัวใช้ได้ครั้งเดียว การเรียงเลขติดกันเป็น 2 หลัก เช่น 12 ไม่อนุญาตในระบบนี้<br/><br/>
 <b>พิมพ์เครื่องหมาย:</b> <code>+ - * / ^ ( )</code> หรือพิมพ์ <code>× ÷</code> ได้<br/>
@@ -845,6 +962,30 @@ body{background:#f6f7f9!important;}
 
 
 
+
+
+
+
+
+
+
+<style id="v84ProgressiveSolutionStyle">
+.progressive-solution{margin-top:6px}
+.progressive-stage-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.progressive-stage{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:12px 10px;text-align:center;font-size:1.08rem;line-height:1.45;color:#1e293b;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.progressive-stage[hidden]{display:none!important}
+.progressive-stage.is-final{border-color:#22c55e;background:#dcfce7;color:#15803d}
+.progressive-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.progressive-controls .btn{min-width:0;padding:9px 14px}
+.progressive-next{background:#dbeafe!important;border-color:#bfdbfe!important;color:#1d4ed8!important}
+.progressive-all{background:#f8fafc!important;color:#475569!important}
+.progressive-controls .btn:disabled{opacity:.5;cursor:default}
+@media(max-width:520px){
+  .progressive-stage{font-size:1rem;padding:11px 7px}
+  .progressive-controls{gap:7px}
+  .progressive-controls .btn{font-size:.9rem;padding:9px 10px}
+}
+</style>
 
 
 
