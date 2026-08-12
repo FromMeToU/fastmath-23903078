@@ -65,7 +65,7 @@ button{cursor:pointer}
 .solution{display:none;margin-top:14px;background:#fafafa;border:1px dashed #cbd5e1;border-radius:15px;padding:14px}.solution.show{display:block}.solution code{font-size:1.05rem;word-break:break-word}
 .solutionmeta{margin:12px auto 0;width:max-content;max-width:100%;background:#f5f3ff;color:#5b21b6;border:1px solid #ddd6fe;border-radius:999px;padding:7px 12px;font-size:.9rem;font-weight:850;text-align:center}
 .solutionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.solutioncount{background:#ede9fe;color:#5b21b6;border-radius:999px;padding:5px 9px;font-size:.82rem;font-weight:850}.solutionnav{display:flex;gap:8px;flex-wrap:nowrap;margin-top:12px;width:100%}.solutionnav .btn{flex:1 1 0;min-width:0;padding:9px 6px;white-space:nowrap;text-align:center}@media(max-width:520px){.solutionnav{gap:6px}.solutionnav .btn{padding:9px 3px;font-size:.86rem;letter-spacing:-.2px}}.solutionnote{margin-top:9px;padding-top:9px;border-top:1px solid #e2e8f0}
-.math-display{font-family:"Noto Sans Thai","Tahoma",system-ui,sans-serif;font-size:1.15rem;line-height:2.65;word-break:break-word}.math-display sup{font-size:.72em;line-height:0;vertical-align:super;margin-left:1px}.math-step{font-family:"Noto Sans Thai","Tahoma",system-ui,sans-serif;line-height:2.55}.math-step sup{font-size:.72em;line-height:0;vertical-align:super}
+.math-display{font-family:"Noto Sans Thai","Tahoma",system-ui,sans-serif;font-size:1.15rem;line-height:2.65;word-break:break-word}.math-display sup{font-size:.72em;line-height:0;vertical-align:super;margin-left:1px}.math-step{font-family:"Noto Sans Thai","Tahoma",system-ui,sans-serif;line-height:2.55}.math-step sup{font-size:.72em;line-height:0;vertical-align:super}.math-display sup .exp-nroot,.math-step sup .exp-nroot{display:inline-flex;align-items:flex-start;line-height:1;vertical-align:middle}.math-display sup .exp-nroot-degree,.math-step sup .exp-nroot-degree{font-size:.62em;line-height:1;position:relative;top:-.38em;margin-right:.04em}.math-display sup .exp-nroot-root,.math-step sup .exp-nroot-root{font-size:1em;line-height:1}.math-display sup .exp-nroot-radicand,.math-step sup .exp-nroot-radicand{font-size:.92em;line-height:1;border-top:1px solid currentColor;padding:0 .05em 0 .08em;margin-left:-.05em}
 math.sum-math{display:inline-block;font-size:1.08em;vertical-align:-.18em;margin:0 .08em;line-height:normal;white-space:nowrap;overflow:visible}math.sum-math munder,math.sum-math munderover{overflow:visible}
 .mini{font-size:.86rem;color:var(--muted)}.warn{color:var(--warn)}
 .summarygrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center}.stat b{display:block;font-size:1.55rem}.stat span{font-size:.82rem;color:var(--muted)}
@@ -540,12 +540,12 @@ body{background:#f6f7f9!important;}
 <label>โหมดค้นหา</label>
 <select id="finderLevel">
 <option selected="" value="all">รวมทุกระดับ</option>
+<option value="random">พื้นฐาน</option>
 <option value="p13">ประถมศึกษาตอนต้น (ป.1–3)</option>
 <option value="p46">ประถมศึกษาตอนปลาย (ป.4–6)</option>
 <option value="m13">มัธยมศึกษาตอนต้น (ม.1–3)</option>
 <option value="m46">มัธยมศึกษาตอนปลาย (ม.4–6)</option>
 <option value="game24">เกม 24</option>
-<option value="random">พื้นฐาน</option>
 </select>
 </div>
 <div class="field">
@@ -811,6 +811,11 @@ body{background:#f6f7f9!important;}
 
 
 <!-- v46: mobile target fitting + show live timer in equation footer -->
+
+
+
+
+
 
 
 
