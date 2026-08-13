@@ -4,10 +4,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<title>เกมคิดเลขเร็ว</title>
+<title>v102 • เกมคิดเลขเร็ว</title>
 
 
 
+<!-- v106: reset follows Shuffle gate; replay after answer/timeout never removes original record or adds score -->
 <!-- v38: practice shuffle = new question; practice timer resets to 0.0 and counts up -->
 <style>
 :root{
@@ -740,10 +741,10 @@ body{background:#f6f7f9!important;}
 <div class="field">
 <label>ระดับการแข่งขัน</label>
 <select id="level">
-<option value="basic">พื้นฐาน — บวก ลบ คูณ หาร</option>
+<option selected="" value="basic">พื้นฐาน — บวก ลบ คูณ หาร</option>
 <option value="p13">ประถมศึกษาตอนต้น (ป.1–3)</option>
 <option value="p46">ประถมศึกษาตอนปลาย (ป.4–6)</option>
-<option selected="" value="m13">มัธยมศึกษาตอนต้น (ม.1–3)</option>
+<option value="m13">มัธยมศึกษาตอนต้น (ม.1–3)</option>
 <option value="m46">มัธยมศึกษาตอนปลาย (ม.4–6)</option>
 <option value="game24">เกม 24 — 4 ตัวเลข / เป้าหมาย 24</option>
 </select>
@@ -751,8 +752,8 @@ body{background:#f6f7f9!important;}
 <div class="field" id="targetModeField">
 <label>การสุ่มผลลัพธ์เป้าหมาย</label>
 <select id="targetMode">
-<option selected="" value="independent">สุ่มเป้าหมายอย่างอิสระ (ค่าเริ่มต้น)</option>
-<option value="guaranteed">รับประกันว่ามีคำตอบตรงเป้าแน่นอน</option>
+<option value="independent">สุ่มเป้าหมายอย่างอิสระ</option>
+<option selected="" value="guaranteed">รับประกันว่ามีคำตอบตรงเป้าแน่นอน</option>
 </select>
 
 </div>
@@ -999,6 +1000,22 @@ body{background:#f6f7f9!important;}
 
 
 
+
+
+
+
+
+
+<style id="v94PracticeScoreVisibleStyle">
+#game #qLabel .v93-practice-streak{color:#0f766e;font-weight:800;margin-left:3px;white-space:nowrap}
+</style>
+
+
+
+
+<style id="v102ShuffleGateStyle">
+#game #fmShuffle:disabled,#game #fmResetExpr:disabled{opacity:.42!important;cursor:not-allowed!important;filter:grayscale(.12)}
+</style>
 
 
 
