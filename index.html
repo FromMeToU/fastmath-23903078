@@ -5,7 +5,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<title>v102 • เกมคิดเลขเร็ว</title>
+<title>v114 • เกมคิดเลขเร็ว</title>
+
+<!-- v114 • Firebase config + Firestore bridge are embedded in this HTML file -->
+
 
 
 
@@ -806,6 +809,7 @@ body{background:#f6f7f9!important;}
 <div class="fm-pad">
 <div class="fm-top-controls">
 <div class="fm-top-left">
+<button class="fm-small-btn" id="fmGameBack" type="button">← <span>ย้อนกลับ</span></button>
 <button class="fm-small-btn" id="fmGameSettings" type="button">⚙ <span>ตั้งค่า</span></button>
 <button class="fm-small-btn" id="fmGameHelp" type="button">ⓘ <span>วิธีเล่น</span></button>
 </div>
@@ -1014,6 +1018,7 @@ body{background:#f6f7f9!important;}
 
 
 
+<!-- v115: Game24 reset/replay does not alter 15/30-second banks; setup helper text simplified -->
 <style id="v102ShuffleGateStyle">
 #game #fmShuffle:disabled,#game #fmResetExpr:disabled{opacity:.42!important;cursor:not-allowed!important;filter:grayscale(.12)}
 </style>
@@ -1047,6 +1052,19 @@ body{background:#f6f7f9!important;}
 #game #fmShuffle.v108-next-rank::first-letter{font-size:.92em}
 @media(max-width:560px){#setup .v108-rank-course-head{gap:8px}#setup .v109-rank-group-row{grid-template-columns:1fr;gap:6px}#setup .v108-rank-progress{align-items:flex-start;flex-direction:column}#setup .v108-rank-reset{width:100%}}
 </style>
+
+
+<style id="v112SigmaCompositeStyle">
+.sum-math{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;vertical-align:middle;font-size:1.05em}
+</style>
+
+
+
+<!-- v114 • Game24 sequential training + Firebase statistics banks (inline; single-file build) -->
+
+
+
+<!-- v117 • Game24 header: remove redundant 4-number text + difficulty 1–5 + exact course position 1–404 -->
 
 
 
