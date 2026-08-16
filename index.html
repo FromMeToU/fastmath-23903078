@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="th">
@@ -602,10 +601,10 @@ body{background:#f6f7f9!important;}
           <div class="classroom-toolbar-actions">
             <button class="classroom-soft" type="button" onclick="goHome()">กลับหน้าหลัก</button>
             <select id="classroomLevel" aria-label="ระดับการแข่งขัน">
-              <option selected value="basic">พื้นฐาน</option>
+              <option value="basic">พื้นฐาน</option>
               <option value="p13">ป.1–3</option>
               <option value="p46">ป.4–6</option>
-              <option value="m13">ม.1–3</option>
+              <option selected value="m13">ม.1–3</option>
               <option value="m46">ม.4–6</option>
               <option value="game24">เกม 24</option>
             </select>
@@ -1023,6 +1022,30 @@ body{background:#f6f7f9!important;}
 
 
 
+
+
+
+<style id="v109Game24RankCourseStyle">
+#setup #game24PracticeOrderField{grid-column:1/-1}
+#setup .v108-rank-course{margin-top:10px;border:1px solid #dbe7e5;border-radius:12px;background:linear-gradient(180deg,#f8fffd 0%,#ffffff 100%);padding:12px 13px}
+#setup .v108-rank-course-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#setup .v108-rank-title{font-weight:900;color:#0f766e;font-size:.96rem;line-height:1.45}
+#setup .v108-rank-sub{margin-top:3px;color:#64748b;font-size:.82rem;line-height:1.55}
+#setup .v108-rank-badge{flex:0 0 auto;border-radius:999px;background:#ecfdf5;color:#0f766e;border:1px solid #b7ead8;padding:5px 9px;font-size:.76rem;font-weight:900;white-space:nowrap}
+#setup .v108-rank-progress{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #e7efed}
+#setup .v108-rank-progress strong{font-size:.86rem;color:#334155}
+#setup .v108-rank-reset{border:1px solid #d7e2e0;background:#fff;color:#475569;border-radius:9px;padding:7px 10px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap}
+#setup .v108-rank-reset:active{transform:translateY(1px)}
+#setup .v109-rank-group-row{display:grid;grid-template-columns:minmax(92px,.38fr) minmax(0,1fr);align-items:center;gap:10px;margin-top:11px;padding:10px 0 1px;border-top:1px solid #e7efed}
+#setup .v109-rank-group-row label{font-size:.84rem;font-weight:900;color:#334155}
+#setup .v109-rank-group-row select{width:100%;min-width:0;border:1px solid #d7e2e0;border-radius:10px;background:#fff;color:#1e293b;padding:9px 10px;font:800 .84rem/1.35 inherit;outline:none}
+#setup .v109-rank-group-row select:focus{border-color:#83c9bf;box-shadow:0 0 0 3px rgba(13,148,136,.09)}
+#setup .v108-rank-loading{opacity:.7;pointer-events:none}
+#game #roundLabel.v108-rank-label{color:#0f766e;font-weight:900}
+#game #gameRuleText.v108-rank-rule{color:#64748b}
+#game #fmShuffle.v108-next-rank::first-letter{font-size:.92em}
+@media(max-width:560px){#setup .v108-rank-course-head{gap:8px}#setup .v109-rank-group-row{grid-template-columns:1fr;gap:6px}#setup .v108-rank-progress{align-items:flex-start;flex-direction:column}#setup .v108-rank-reset{width:100%}}
+</style>
 
 
 
